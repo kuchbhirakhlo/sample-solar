@@ -9,20 +9,19 @@ export default function HeroSection() {
     <section
       className="relative w-full h-screen flex items-center justify-center overflow-hidden"
       style={{
-        backgroundImage: 'linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url(/images/hero-bg.jpg)',
+        backgroundImage: 'linear-gradient(rgba(0,0,0,0.35), rgba(30,64,175,0.45)), url(/images/solar-hero.jpg)',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
       }}
     >
-      {/* Placeholder for background image - will be replaced with actual image */}
-      <div className="absolute inset-0 bg-gradient-to-b from-blue-900/40 to-blue-900/20"></div>
+      <div className="absolute inset-0 bg-gradient-to-b from-blue-950/40 to-blue-900/30"></div>
 
       <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">
         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
-          Still paying for electricity?
+          Power Your Future with Clean Solar Energy
         </h1>
         <p className="text-xl sm:text-2xl mb-8 text-gray-100">
-          Switch to solar. Let the sun pay your bills.
+          Save up to 90% on electricity costs and make a difference for the planet. Your journey to energy independence starts today.
         </p>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
