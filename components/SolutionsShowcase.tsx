@@ -3,7 +3,14 @@
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import Image from 'next/image';
 import { COLORS, SOLUTIONS } from '@/lib/constants';
+
+const solutionImages: Record<string, string> = {
+  '1': '/images/solar-homes.jpg',
+  '2': '/images/solar-housing-society.jpg',
+  '3': '/images/solar-commercial.jpg',
+};
 
 export default function SolutionsShowcase() {
   return (
@@ -20,15 +27,14 @@ export default function SolutionsShowcase() {
           {SOLUTIONS.map((solution) => (
             <Link key={solution.id} href={`/solar-solutions/${solution.id}`}>
               <Card className="overflow-hidden hover:shadow-lg transition-shadow cursor-pointer h-full">
-                <div
-                  className="h-64 bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center text-white text-center p-6"
-                  style={{
-                    backgroundImage: `linear-gradient(135deg, ${COLORS.primary}80, ${COLORS.gold}80)`,
-                  }}
-                >
-                  <div>
-                    <div className="text-6xl mb-2">☀️</div>
-                  </div>
+                <div className="h-64 relative bg-gray-200 overflow-hidden">
+                  <Image
+                    src={solutionImages[solution.id] || '/images/solar-homes.jpg'}
+                    alt={solution.title}
+                    fill
+                    className="object-cover hover:scale-105 transition-transform duration-300"
+                  />
+                  <div className="absolute inset-0 bg-black/20"></div>
                 </div>
                 <div className="p-6">
                   <h3 className="text-2xl font-bold mb-2" style={{ color: COLORS.primary }}>
