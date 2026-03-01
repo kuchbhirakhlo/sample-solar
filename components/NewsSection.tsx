@@ -44,7 +44,11 @@ export default function NewsSection() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {news.map((article) => (
-            <Link key={article.id} href={`/blog/${article.slug}`}>
+            <Link
+              key={article.id}
+              href={`/blog/${article.slug}`}
+              className="block group"
+            >
               <Card className="overflow-hidden hover:shadow-lg transition-shadow cursor-pointer h-full flex flex-col">
                 <div
                   className="h-48 flex items-center justify-center text-6xl"
@@ -56,17 +60,16 @@ export default function NewsSection() {
                 </div>
                 <div className="p-6 flex-grow flex flex-col">
                   <p className="text-sm text-gray-500 mb-2">{article.date}</p>
-                  <h3 className="text-xl font-bold mb-2" style={{ color: COLORS.primary }}>
+                  <h3 className="text-xl font-bold mb-2 group-hover:opacity-75 transition-opacity" style={{ color: COLORS.primary }}>
                     {article.title}
                   </h3>
                   <p className="text-gray-600 flex-grow">{article.excerpt}</p>
-                  <Link
-                    href={`/blog/${article.slug}`}
-                    className="text-sm font-semibold mt-4 inline-block hover:opacity-75 transition-opacity"
+                  <span
+                    className="text-sm font-semibold mt-4 inline-block group-hover:opacity-75 transition-opacity"
                     style={{ color: COLORS.primary }}
                   >
                     Read More →
-                  </Link>
+                  </span>
                 </div>
               </Card>
             </Link>
