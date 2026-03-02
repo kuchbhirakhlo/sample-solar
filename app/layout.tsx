@@ -9,7 +9,7 @@ const _geist = Geist({ subsets: ["latin"] });
 const _geistMono = Geist_Mono({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: 'SolarSquare | Transform Your Energy with Solar Power',
+  title: 'Orintek Solar | Best Solar Panel Services in Lucknow',
   description: 'India\'s leading solar energy solutions for homes, housing societies, and commercial businesses. Get free solar installation quotes today.',
   generator: 'v0.app',
   icons: {

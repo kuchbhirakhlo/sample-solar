@@ -1,4 +1,4 @@
-# SolarSquare - Solar Energy Website
+# Orintek Solar - Solar Energy Website
 
 A comprehensive, professional solar energy company website built with Next.js 16, Firebase, and Tailwind CSS.
 
@@ -260,7 +260,7 @@ This project is ready for commercial use.
 ## 🤝 Support
 
 For questions or issues:
-- Email: hello@solarsquare.in
+- Email: hello@Orintek Solar.in
 - Phone: +91 8888 999 999
 
 ## 🎯 Next Steps

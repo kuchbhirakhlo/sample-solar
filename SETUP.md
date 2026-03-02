@@ -1,4 +1,4 @@
-# SolarSquare Setup Guide
+# Orintek Solar Setup Guide
 
 Complete step-by-step instructions to get your solar website up and running.
 
@@ -83,7 +83,7 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You should see the beautiful SolarSquare website!
+You should see the beautiful Orintek Solar website!
 
 ## Step 7: Customize Content
 

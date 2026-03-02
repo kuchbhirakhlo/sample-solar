@@ -10,7 +10,7 @@ export default function NewsSection() {
       id: 1,
       title: "India's Green Revolution: Solar Power Takes Center Stage",
       excerpt: 'Discover how solar energy is transforming India\'s power landscape',
-      image: '🌍',
+      image: '/images/solar-hero.jpg',
       date: 'March 1, 2024',
       slug: 'india-green-revolution',
     },
@@ -18,7 +18,7 @@ export default function NewsSection() {
       id: 2,
       title: 'How to Maximize Your Solar Panel Efficiency',
       excerpt: 'Expert tips for getting the most out of your solar installation',
-      image: '⚡',
+      image: '/images/solar-homes.jpg',
       date: 'February 28, 2024',
       slug: 'maximize-solar-efficiency',
     },
@@ -26,7 +26,7 @@ export default function NewsSection() {
       id: 3,
       title: 'Solar Energy Cost Comparison: Then vs Now',
       excerpt: 'See how solar prices have dropped dramatically in the past decade',
-      image: '💰',
+      image: '/images/solar-commercial.jpg',
       date: 'February 25, 2024',
       slug: 'solar-cost-comparison',
     },
@@ -51,12 +51,14 @@ export default function NewsSection() {
             >
               <Card className="overflow-hidden hover:shadow-lg transition-shadow cursor-pointer h-full flex flex-col">
                 <div
-                  className="h-48 flex items-center justify-center text-6xl"
-                  style={{
-                    backgroundImage: `linear-gradient(135deg, ${COLORS.primary}20, ${COLORS.gold}20)`,
-                  }}
+                  className="h-48 relative overflow-hidden"
                 >
-                  {article.image}
+                  <img
+                    src={article.image}
+                    alt={article.title}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                  <div className="absolute inset-0 bg-black/20"></div>
                 </div>
                 <div className="p-6 flex-grow flex flex-col">
                   <p className="text-sm text-gray-500 mb-2">{article.date}</p>

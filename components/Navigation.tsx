@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Menu, X } from 'lucide-react';
 import { useState } from 'react';
@@ -14,9 +15,14 @@ export default function Navigation() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 font-bold text-xl" style={{ color: COLORS.primary }}>
-            <div className="w-8 h-8 rounded-full" style={{ backgroundColor: COLORS.primary }}></div>
-            {SITE_CONFIG.name}
+          <Link href="/" className="flex items-center gap-2">
+            <Image
+              src="/orientek.png"
+              alt="Orintek Solar Logo"
+              width={120}
+              height={40}
+              className="h-16 w-auto object-contain"
+            />
           </Link>
 
           {/* Desktop Menu */}
@@ -38,7 +44,7 @@ export default function Navigation() {
               className="hidden sm:inline-flex text-white font-semibold"
               style={{ backgroundColor: COLORS.primary }}
             >
-              Sign up for free electricity
+              Get Your Free Quote
             </Button>
 
             {/* Mobile Menu Button */}
@@ -66,7 +72,7 @@ export default function Navigation() {
               </Link>
             ))}
             <Button className="w-full mt-4 text-white font-semibold" style={{ backgroundColor: COLORS.primary }}>
-              Sign up for free electricity
+              Get Your Free Quote
             </Button>
           </div>
         )}

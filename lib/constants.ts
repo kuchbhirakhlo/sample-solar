@@ -1,7 +1,7 @@
 export const SITE_CONFIG = {
-  name: 'SolarSquare',
+  name: 'Orintek Solar',
   description: 'Transform your energy needs with solar power',
-  url: 'https://solarsquare.in',
+  url: 'https://Orintek Solar.in',
   ogImage: '/og-image.jpg',
   links: {
     twitter: 'https://twitter.com',
@@ -14,7 +14,8 @@ export const SITE_CONFIG = {
 export const NAV_ITEMS = [
   { label: 'Our Offerings', href: '/#offerings' },
   { label: 'Solar Solutions', href: '/solar-solutions' },
-  { label: 'Our Finance', href: '/finance' },
+  { label: 'Contact', href: '/contact' },
+  { label: 'Careers', href: '/career' },
   { label: 'Blog', href: '/blog' },
   { label: 'More', href: '#' },
 ];

@@ -10,7 +10,7 @@ export default function TestimonialsSection() {
       id: 1,
       name: 'Rajesh Chopra',
       company: 'Mumbai',
-      content: 'SolarSquare has completely transformed my home. I am now saving ₹5000 every month on electricity bills!',
+      content: 'Orintek Solar has completely transformed my home. I am now saving ₹5000 every month on electricity bills!',
       rating: 5,
       image: '👨‍💼',
     },
@@ -36,7 +36,7 @@ export default function TestimonialsSection() {
     <section className="py-20" style={{ backgroundColor: COLORS.lightBlue }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 className="text-4xl font-bold text-center mb-4" style={{ color: COLORS.primary }}>
-          90% of customers recommend us!
+          What Our Customers Say
         </h2>
         <p className="text-center text-gray-600 mb-12 text-lg">
           Don't just believe us—read the reviews for yourself

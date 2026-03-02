@@ -9,7 +9,7 @@ export default function HeroSection() {
     <section
       className="relative w-full h-screen flex items-center justify-center overflow-hidden"
       style={{
-        backgroundImage: 'linear-gradient(rgba(0,0,0,0.35), rgba(30,64,175,0.45)), url(/images/solar-hero.jpg)',
+        backgroundImage: 'linear-gradient(rgba(0,0,0,0.35), rgba(30,64,175,0.45)), url(/newheroimage.jpg)',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
       }}
