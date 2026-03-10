@@ -3,11 +3,9 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import HeroSection from '@/components/HeroSection';
 import RecentInstallationsSection from '@/components/RecentInstallationsSection';
-import FAQSection from '@/components/FAQSection';
-import NewsSection from '@/components/NewsSection';
 import GoogleRatingSection from '@/components/GoogleRatingSection';
 import SolarCompaniesSection from '@/components/SolarCompaniesSection';
-import SolutionsShowcase from '@/components/SolutionsShowcase';
+import Chatbot from '@/components/Chatbot';
 import { COLORS } from '@/lib/constants';
 import { CheckCircle, Sun, Zap, Award, Users, Phone, Mail, MapPin } from 'lucide-react';
 
@@ -86,9 +84,7 @@ export default function Home() {
 
       <SolarCompaniesSection />
 
-      <SolutionsShowcase />
 
-      {/* Why Choose Us Section */}
       <section className="py-20" style={{ backgroundColor: COLORS.lightBlue }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-4xl font-bold text-center mb-4" style={{ color: COLORS.primary }}>
@@ -153,10 +149,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* News Section */}
-      <NewsSection />
 
-      {/* Google Rating Section */}
       <GoogleRatingSection />
 
       {/* CTA Section */}
@@ -249,7 +242,7 @@ export default function Home() {
                   </div>
                   <div>
                     <h4 className="font-bold text-lg" style={{ color: COLORS.primary }}>Address</h4>
-                    <p className="text-gray-600">Lucknow, India</p>
+                    <p className="text-gray-600">Lucknow, Uttar Pradesh, India</p>
                   </div>
                 </div>
                 
@@ -262,7 +255,7 @@ export default function Home() {
                   </div>
                   <div>
                     <h4 className="font-bold text-lg" style={{ color: COLORS.primary }}>Phone</h4>
-                    <p className="text-gray-600">+91 98765 43210</p>
+                    <p className="text-gray-600">+91 89338 14898</p>
                   </div>
                 </div>
                 
@@ -275,7 +268,7 @@ export default function Home() {
                   </div>
                   <div>
                     <h4 className="font-bold text-lg" style={{ color: COLORS.primary }}>Email</h4>
-                    <p className="text-gray-600">info@orinteksolar.com</p>
+                    <p className="text-gray-600">orinteksolar@gmail.com</p>
                   </div>
                 </div>
               </div>
@@ -283,8 +276,7 @@ export default function Home() {
           </div>
         </div>
       </section>
-            {/* FAQ Section */}
-      <FAQSection />
+            <Chatbot />
 
     </>
   );
