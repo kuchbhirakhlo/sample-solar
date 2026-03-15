@@ -31,7 +31,7 @@ export default function Navigation() {
             {/* Logo */}
             <Link href="/" className="flex items-center gap-2">
               <Image
-                src="/Orientek.png"
+                src="/orientek.png"
                 alt="Orintek Solar Logo"
                 width={120}
                 height={40}
