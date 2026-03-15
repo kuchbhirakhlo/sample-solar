@@ -34,7 +34,7 @@ export default function ContactPage() {
     }
 
     const phoneNumber = '918933814898';
-    const message = encodeURIComponent(`*New Inquiry from Orientek Solar Website - Lucknow*
+    const message = encodeURIComponent(`*New Inquiry from Orintek Solar Website - Lucknow*
 
 *Name:* ${formData.name}
 *Email:* ${formData.email || 'Not provided'}
@@ -70,17 +70,17 @@ Looking for Solar Panel in Lucknow? Contact us for best deals!`);
           <div className="absolute bottom-10 right-10 w-48 h-48 bg-amber-300 rounded-full blur-3xl"></div>
           <div className="absolute top-1/2 left-1/2 w-64 h-64 bg-yellow-200 rounded-full blur-3xl"></div>
         </div>
-        
+
         <div className="relative max-w-6xl mx-auto px-6 text-center">
           <div className="inline-flex items-center gap-2 bg-white/20 text-white px-4 py-2 rounded-full mb-6">
             <Sun className="w-5 h-5" />
             <span className="text-sm font-medium">Best Solar Company in Lucknow</span>
           </div>
           <h1 className="text-5xl md:text-6xl font-bold text-white mb-6 leading-tight">
-            Contact <span className="text-yellow-300">Orientek Solar</span>
+            Contact <span className="text-yellow-300">Orintek Solar</span>
           </h1>
           <p className="text-xl text-white/90 max-w-3xl mx-auto mb-8">
-            Looking for <strong>Solar Panel in Lucknow</strong>? Get in touch with Uttar Pradesh's most trusted solar provider. 
+            Looking for <strong>Solar Panel in Lucknow</strong>? Get in touch with Uttar Pradesh's most trusted solar provider.
             We serve all areas including Gomti Nagar, Aliganj, and across Lucknow city.
           </p>
           <div className="flex flex-wrap justify-center gap-4 text-white/90">
@@ -164,7 +164,7 @@ Looking for Solar Panel in Lucknow? Contact us for best deals!`);
                   <p className="text-gray-600 text-sm">Solar Panel in Lucknow - Best Prices Guaranteed</p>
                 </div>
               </div>
-              
+
               <form onSubmit={handleSubmit} className="space-y-5">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
@@ -262,7 +262,7 @@ Looking for Solar Panel in Lucknow? Contact us for best deals!`);
             {/* Why Choose Us */}
             <div>
               <h2 className="text-3xl font-bold mb-2" style={{ color: COLORS.primary }}>
-                Why Choose Orientek Solar?
+                Why Choose Orintek Solar?
               </h2>
               <p className="text-gray-600 mb-8">
                 Leading <strong>Solar Panel dealer in Lucknow</strong> - Trusted by thousands of homeowners and businesses across Uttar Pradesh
@@ -343,10 +343,10 @@ Looking for Solar Panel in Lucknow? Contact us for best deals!`);
               Professional <strong>Solar Panel installation in Lucknow</strong>. We serve all major areas including Gomti Nagar, Aliganj, Indiranagar, and entire Lucknow district.
             </p>
           </div>
-          
+
           <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
             {serviceAreas.map((area) => (
-              <a 
+              <a
                 key={area.name}
                 href={`#inquiry`}
                 className="p-4 bg-white rounded-xl shadow-md hover:shadow-lg transition-all text-center hover:-translate-y-1 border-2 border-transparent hover:border-orange-400"
@@ -368,11 +368,11 @@ Looking for Solar Panel in Lucknow? Contact us for best deals!`);
               Our Solar Panel Services in Lucknow
             </h2>
             <p className="text-gray-600 max-w-2xl mx-auto">
-              Serving <strong>Lucknow, Uttar Pradesh</strong> with top-quality solar panel installations. 
+              Serving <strong>Lucknow, Uttar Pradesh</strong> with top-quality solar panel installations.
               Find us in the heart of Lucknow city - your trusted solar partner in the city of nawabs.
             </p>
           </div>
-          
+
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
             {/* Lucknow Map */}
             <div className="rounded-2xl overflow-hidden shadow-2xl">
@@ -389,7 +389,7 @@ Looking for Solar Panel in Lucknow? Contact us for best deals!`);
                 />
               </div>
               <div className="bg-gradient-to-r from-orange-600 to-amber-600 p-4 text-white text-center">
-                <p className="font-semibold">📍 Orientek Solar - Lucknow, Uttar Pradesh, India</p>
+                <p className="font-semibold">📍 Orintek Solar - Lucknow, Uttar Pradesh, India</p>
               </div>
             </div>
 
@@ -400,8 +400,8 @@ Looking for Solar Panel in Lucknow? Contact us for best deals!`);
                   Solar Panel in Gomti Nagar Lucknow
                 </h3>
                 <p className="text-gray-600 text-sm leading-relaxed">
-                  Looking for the <strong>best solar panel in Gomti Nagar Lucknow</strong>? Orientek Solar provides premium solar panel 
-                  installation services in Gomti Nagar and nearby areas. Our expert team offers residential and commercial solar solutions 
+                  Looking for the <strong>best solar panel in Gomti Nagar Lucknow</strong>? Orintek Solar provides premium solar panel
+                  installation services in Gomti Nagar and nearby areas. Our expert team offers residential and commercial solar solutions
                   with free site survey in Gomti Nagar, Lucknow.
                 </p>
               </div>
@@ -411,7 +411,7 @@ Looking for Solar Panel in Lucknow? Contact us for best deals!`);
                   Solar Panel in Aliganj Lucknow
                 </h3>
                 <p className="text-gray-600 text-sm leading-relaxed">
-                  Get <strong>Solar Panel installation in Aliganj Lucknow</strong> from Uttar Pradesh's leading solar company. 
+                  Get <strong>Solar Panel installation in Aliganj Lucknow</strong> from Uttar Pradesh's leading solar company.
                   We provide affordable solar panel solutions with government subsidy assistance in Aliganj and surrounding areas of Lucknow.
                 </p>
               </div>
@@ -444,8 +444,8 @@ Looking for Solar Panel in Lucknow? Contact us for best deals!`);
       <section className="py-12 bg-gray-900 text-white">
         <div className="max-w-7xl mx-auto px-6">
           <h3 className="text-center text-lg font-semibold mb-8 text-gray-300">
-            Keywords: Solar Panel in Lucknow | Solar Panel in Gomti Nagar Lucknow | Solar Panel in Aliganj Lucknow | 
-            Solar Company in Lucknow | Solar Dealer in Lucknow | Solar Installer in Lucknow | 
+            Keywords: Solar Panel in Lucknow | Solar Panel in Gomti Nagar Lucknow | Solar Panel in Aliganj Lucknow |
+            Solar Company in Lucknow | Solar Dealer in Lucknow | Solar Installer in Lucknow |
             Best Solar Panel Lucknow | Cheap Solar Panel Lucknow | Solar Panel Price Lucknow
           </h3>
           <div className="flex flex-wrap justify-center gap-4 text-sm text-gray-400">
@@ -479,18 +479,18 @@ Looking for Solar Panel in Lucknow? Contact us for best deals!`);
             Ready to Switch to Solar in Lucknow?
           </h2>
           <p className="text-xl text-white/90 mb-8">
-            Get <strong>free solar panel consultation</strong> for your home or business in Lucknow. 
+            Get <strong>free solar panel consultation</strong> for your home or business in Lucknow.
             Best prices guaranteed across all areas including Gomti Nagar, Aliganj, Indiranagar, and more!
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a 
+            <a
               href="tel:+918933814898"
               className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white text-orange-600 font-bold rounded-xl hover:bg-gray-100 transition-colors"
             >
               <Phone className="w-5 h-5" />
               Call +91 89338 14898
             </a>
-            <a 
+            <a
               href="https://wa.me/918933814898"
               className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-green-500 text-white font-bold rounded-xl hover:bg-green-600 transition-colors"
             >

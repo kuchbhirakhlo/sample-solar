@@ -14,18 +14,18 @@ export default function AboutPage() {
             {/* Left Side - Content */}
             <div className="text-white">
               <p className="text-lg mb-2 text-blue-200">
-                Welcome to Orientek solar
+                Welcome to Orintek solar
               </p>
               <h2 className="text-5xl font-bold mb-6">
                 About Us
               </h2>
               <p className="text-lg mb-6 text-blue-100">
-                We are available to install a happy life in the form of SOLAR PANEL for your home and commercial needs. 
-                Established in 2025, M/s. ORINTEK SOLAR ENERGY SOLUTIONS LLP has built a reputation for quality excellence 
-                and is committed to upholding that standard of service providing reliable & affordable Solar solutions 
+                We are available to install a happy life in the form of SOLAR PANEL for your home and commercial needs.
+                Established in 2025, M/s. ORINTEK SOLAR ENERGY SOLUTIONS LLP has built a reputation for quality excellence
+                and is committed to upholding that standard of service providing reliable & affordable Solar solutions
                 and trusted experts in residential & commercial solar energy.
               </p>
-              
+
               {/* Bullet Points */}
               <div className="space-y-3 mb-8">
                 <div className="flex items-center gap-3">
@@ -41,7 +41,7 @@ export default function AboutPage() {
                   <span className="text-lg">Trusted Installation in Affordable Price</span>
                 </div>
               </div>
-              
+
               <Link href="/about">
                 <Button
                   size="lg"
@@ -52,19 +52,19 @@ export default function AboutPage() {
                 </Button>
               </Link>
             </div>
-            
+
             {/* Right Side - Image */}
             <div className="flex justify-center lg:justify-end">
-              <div 
+              <div
                 className="rounded-2xl overflow-hidden shadow-2xl"
-                style={{ 
+                style={{
                   backgroundColor: 'white',
                   maxWidth: '500px'
                 }}
               >
-                <img 
-                  src="/images/solar-hero.jpg" 
-                  alt="Solar Rooftop Installation" 
+                <img
+                  src="/images/solar-hero.jpg"
+                  alt="Solar Rooftop Installation"
                   className="w-full h-auto object-cover"
                   style={{ maxHeight: '400px' }}
                 />
@@ -83,8 +83,8 @@ export default function AboutPage() {
                 Welcome to ORINTEK Solar Energy Solutions
               </h2>
               <p className="text-lg text-gray-700 mb-6">
-                We are available to install a happy life in the form of SOLAR PANEL for your home and commercial needs. 
-                Established in 2025, M/s. ORINTEK SOLAR ENERGY SOLUTIONS LLP has built a reputation for quality excellence 
+                We are available to install a happy life in the form of SOLAR PANEL for your home and commercial needs.
+                Established in 2025, M/s. ORINTEK SOLAR ENERGY SOLUTIONS LLP has built a reputation for quality excellence
                 and is committed to upholding that standard of service.
               </p>
               <p className="text-lg text-gray-700 mb-6">
@@ -102,9 +102,9 @@ export default function AboutPage() {
               </Link>
             </div>
             <div className="flex justify-center">
-              <img 
-                src="/orientek.png" 
-                alt="ORINTEK Solar Energy Solutions" 
+              <img
+                src="/Orintek.png"
+                alt="ORINTEK Solar Energy Solutions"
                 className="h-48 w-auto object-contain"
               />
             </div>
@@ -120,29 +120,29 @@ export default function AboutPage() {
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {[
-              { 
-                icon: Sun, 
-                title: 'Quality Products', 
+              {
+                icon: Sun,
+                title: 'Quality Products',
                 description: 'We use only the best solar panels and equipment from trusted brands'
               },
-              { 
-                icon: Zap, 
-                title: 'Expert Installation', 
+              {
+                icon: Zap,
+                title: 'Expert Installation',
                 description: 'Professional team with years of experience in solar installations'
               },
-              { 
-                icon: Award, 
-                title: 'Trusted Experts', 
+              {
+                icon: Award,
+                title: 'Trusted Experts',
                 description: 'Built reputation for quality excellence since 2025'
               },
-              { 
-                icon: Users, 
-                title: 'Customer Support', 
+              {
+                icon: Users,
+                title: 'Customer Support',
                 description: 'Dedicated after-sales service and maintenance support'
               },
             ].map((feature) => (
               <Card key={feature.title} className="p-6 text-center hover:shadow-lg transition-shadow">
-                <div 
+                <div
                   className="w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center"
                   style={{ backgroundColor: COLORS.lightBlue }}
                 >

@@ -65,7 +65,7 @@ const faqData: { keywords: string[]; answer: string }[] = [
   },
   {
     keywords: ['hello', 'hi', 'hey', 'namaste', '你好'],
-    answer: "Namaste! 🙏\n\nWelcome to Orientek Solar Energy Solutions! How can I help you today? Feel free to ask any questions about solar installations, costs, or our services."
+    answer: "Namaste! 🙏\n\nWelcome to Orintek Solar Energy Solutions! How can I help you today? Feel free to ask any questions about solar installations, costs, or our services."
   },
   {
     keywords: ['thank', 'thanks', 'helpful', '谢谢'],
@@ -78,7 +78,7 @@ export default function Chatbot() {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: 0,
-      text: "Namaste! 🙏\n\nWelcome to Orientek Solar! I'm your solar assistant. Ask me anything about solar panels, installation, costs, or our services!",
+      text: "Namaste! 🙏\n\nWelcome to Orintek Solar! I'm your solar assistant. Ask me anything about solar panels, installation, costs, or our services!",
       isUser: false
     }
   ]);
@@ -95,7 +95,7 @@ export default function Chatbot() {
 
   const getAnswer = (question: string): string => {
     const lowerQuestion = question.toLowerCase();
-    
+
     for (const faq of faqData) {
       for (const keyword of faq.keywords) {
         if (lowerQuestion.includes(keyword)) {
@@ -103,7 +103,7 @@ export default function Chatbot() {
         }
       }
     }
-    
+
     return "Thank you for your question! For detailed information about this, please contact our team:\n\n📞 +91 89338 14898\n📧 orinteksolar@gmail.com\n\nOr fill out the contact form and we'll get back to you within 24 hours!";
   };
 
@@ -182,11 +182,10 @@ export default function Chatbot() {
                 className={`flex ${message.isUser ? 'justify-end' : 'justify-start'}`}
               >
                 <div
-                  className={`max-w-[80%] p-3 rounded-2xl ${
-                    message.isUser
+                  className={`max-w-[80%] p-3 rounded-2xl ${message.isUser
                       ? 'rounded-br-md'
                       : 'rounded-bl-md'
-                  }`}
+                    }`}
                   style={{
                     backgroundColor: message.isUser ? COLORS.primary : COLORS.lightBlue,
                     color: message.isUser ? 'white' : COLORS.primary

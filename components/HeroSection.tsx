@@ -8,12 +8,19 @@ export default function HeroSection() {
   return (
     <section
       className="relative w-full h-screen flex items-center justify-center overflow-hidden"
-      style={{
-        backgroundImage: 'linear-gradient(rgba(0,0,0,0.35), rgba(30,64,175,0.45)), url(/newheroimage.jpg)',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-      }}
     >
+      {/* Video Background */}
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
+        className="absolute inset-0 w-full h-full object-cover"
+      >
+        <source src="/hero-gif.mp4" type="video/mp4" />
+      </video>
+
+      {/* Gradient Overlay */}
       <div className="absolute inset-0 bg-gradient-to-b from-blue-950/40 to-blue-900/30"></div>
 
       <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">
