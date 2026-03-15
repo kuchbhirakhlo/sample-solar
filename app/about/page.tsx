@@ -103,7 +103,7 @@ export default function AboutPage() {
             </div>
             <div className="flex justify-center">
               <img
-                src="/Orintek.png"
+                src="/orintek-logo.png"
                 alt="ORINTEK Solar Energy Solutions"
                 className="h-48 w-auto object-contain"
               />
