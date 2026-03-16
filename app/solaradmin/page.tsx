@@ -10,173 +10,92 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { Switch } from '@/components/ui/switch';
+import { useAuth } from '@/lib/auth-context';
 import {
-    Shield,
-    Users,
-    Briefcase,
-    MessageSquare,
-    LogOut,
-    Plus,
-    Trash2,
-    Edit,
-    Eye,
-    EyeOff,
-    CheckCircle,
-    XCircle,
-    Search,
-    Calendar,
-    Mail,
-    Phone,
-    MapPin,
-    Lock,
-    Unlock,
-    UserPlus,
-    UserX
+  Shield,
+  Users,
+  Briefcase,
+  MessageSquare,
+  LogOut,
+  Plus,
+  Trash2,
+  Edit,
+  Eye,
+  EyeOff,
+  CheckCircle,
+  XCircle,
+  Search,
+  Calendar,
+  Mail,
+  Phone,
+  MapPin,
+  Lock,
+  Unlock,
+  UserPlus,
+  UserX,
+  FileText
 } from 'lucide-react';
-
-// Types
-interface ContactSubmission {
-    id: string;
-    name: string;
-    email: string;
-    phone: string;
-    subject: string;
-    message: string;
-    date: string;
-    status: 'new' | 'contacted' | 'closed';
-}
-
-interface Job {
-    id: string;
-    title: string;
-    location: string;
-    type: string;
-    description: string;
-    requirements: string[];
-    isActive: boolean;
-    createdAt: string;
-}
-
-interface Employee {
-    id: string;
-    name: string;
-    email: string;
-    phone: string;
-    role: 'admin' | 'manager' | 'employee';
-    isActive: boolean;
-    createdAt: string;
-    lastLogin: string;
-}
-
-// Mock data for demonstration
-const mockContactSubmissions: ContactSubmission[] = [
-    {
-        id: '1',
-        name: 'Rahul Sharma',
-        email: 'rahul.sharma@email.com',
-        phone: '+91 98765 43210',
-        subject: 'Residential Solar',
-        message: 'Interested in installing solar panels for my home in Gomti Nagar',
-        date: '2024-01-15',
-        status: 'new'
-    },
-    {
-        id: '2',
-        name: 'Priya Singh',
-        email: 'priya.singh@email.com',
-        phone: '+91 98765 12345',
-        subject: 'Commercial Solar',
-        message: 'Looking for solar solution for our office building',
-        date: '2024-01-14',
-        status: 'contacted'
-    },
-    {
-        id: '3',
-        name: 'Amit Kumar',
-        email: 'amit.kumar@email.com',
-        phone: '+91 98765 67890',
-        subject: 'Solar AMC',
-        message: 'Need annual maintenance contract for existing solar setup',
-        date: '2024-01-13',
-        status: 'closed'
-    }
-];
-
-const mockJobs: Job[] = [
-    {
-        id: '1',
-        title: 'Solar Installation Engineer',
-        location: 'Lucknow, Uttar Pradesh',
-        type: 'Full-time',
-        description: 'Lead installation teams for residential and commercial solar projects',
-        requirements: ['3+ years experience', 'Electrical engineering background', 'Valid DL'],
-        isActive: true,
-        createdAt: '2024-01-10'
-    },
-    {
-        id: '2',
-        title: 'Sales Executive',
-        location: 'Pan India',
-        type: 'Full-time',
-        description: 'Drive solar adoption through consultative sales approach',
-        requirements: ['2+ years in sales', 'Excellent communication', 'CRM experience'],
-        isActive: true,
-        createdAt: '2024-01-08'
-    },
-    {
-        id: '3',
-        title: 'Marketing Manager',
-        location: 'Lucknow, Uttar Pradesh',
-        type: 'Full-time',
-        description: 'Plan and execute marketing campaigns for solar solutions',
-        requirements: ['5+ years marketing experience', 'Digital marketing expertise'],
-        isActive: false,
-        createdAt: '2024-01-05'
-    }
-];
-
-const mockEmployees: Employee[] = [
-    {
-        id: '1',
-        name: 'Admin User',
-        email: 'admin@orinteksolar.com',
-        phone: '+91 89338 14898',
-        role: 'admin',
-        isActive: true,
-        createdAt: '2024-01-01',
-        lastLogin: '2024-01-15'
-    },
-    {
-        id: '2',
-        name: 'John Doe',
-        email: 'john@orinteksolar.com',
-        phone: '+91 98765 11111',
-        role: 'manager',
-        isActive: true,
-        createdAt: '2024-01-05',
-        lastLogin: '2024-01-14'
-    },
-    {
-        id: '3',
-        name: 'Jane Smith',
-        email: 'jane@orinteksolar.com',
-        phone: '+91 98765 22222',
-        role: 'employee',
-        isActive: false,
-        createdAt: '2024-01-08',
-        lastLogin: '2024-01-10'
-    }
-];
+import {
+  getContactSubmissions,
+  updateContactStatus,
+  deleteContactSubmission,
+  getJobs,
+  addJob,
+  updateJob,
+  deleteJob,
+  getEmployees,
+  addEmployee,
+  updateEmployee,
+  deleteEmployee,
+  getJobApplications,
+  ContactSubmission,
+  Job,
+  Employee,
+  JobApplication
+} from '@/lib/firebase-db';
 
 export default function SolarAdminPage() {
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const { user, isAdmin, loading, login, logout } = useAuth();
     const [loginForm, setLoginForm] = useState({ email: '', password: '' });
     const [loginError, setLoginError] = useState('');
 
     // Data states
-    const [contacts, setContacts] = useState<ContactSubmission[]>(mockContactSubmissions);
-    const [jobs, setJobs] = useState<Job[]>(mockJobs);
-    const [employees, setEmployees] = useState<Employee[]>(mockEmployees);
+    const [contacts, setContacts] = useState<ContactSubmission[]>([]);
+    const [jobs, setJobs] = useState<Job[]>([]);
+    const [employees, setEmployees] = useState<Employee[]>([]);
+    const [jobApplications, setJobApplications] = useState<JobApplication[]>([]);
+    const [dataLoading, setDataLoading] = useState(false);
+
+    // Load data when admin logs in
+    useEffect(() => {
+        if (user && isAdmin) {
+            loadData();
+        }
+    }, [user, isAdmin]);
+
+    const loadData = async () => {
+        setDataLoading(true);
+        try {
+            const [contactsData, jobsData, employeesData, applicationsData] = await Promise.all([
+                getContactSubmissions(),
+                getJobs(),
+                getEmployees(),
+                getJobApplications()
+            ]);
+            setContacts(contactsData);
+            setJobs(jobsData);
+            setEmployees(employeesData);
+            setJobApplications(applicationsData);
+        } catch (error) {
+            console.error('Error loading data:', error);
+        } finally {
+            setDataLoading(false);
+        }
+    };
+
+    // Check if current user has admin privileges
+    const currentUserRole = employees.find(e => e.email === user?.email)?.role || 'employee';
+    const isCurrentUserAdmin = currentUserRole === 'admin';
 
     // Dialog states
     const [contactDialogOpen, setContactDialogOpen] = useState(false);
@@ -202,19 +121,18 @@ export default function SolarAdminPage() {
     });
     const [requirementInput, setRequirementInput] = useState('');
 
-    const handleLogin = (e: React.FormEvent) => {
+    const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
-        // Demo login - accept any credentials
-        if (loginForm.email && loginForm.password) {
-            setIsLoggedIn(true);
+        try {
+            await login(loginForm.email, loginForm.password);
             setLoginError('');
-        } else {
-            setLoginError('Please enter email and password');
+        } catch (error: any) {
+            setLoginError(error.message || 'Login failed');
         }
     };
 
-    const handleLogout = () => {
-        setIsLoggedIn(false);
+    const handleLogout = async () => {
+        await logout();
         setLoginForm({ email: '', password: '' });
     };
 
@@ -223,33 +141,76 @@ export default function SolarAdminPage() {
         setContactDialogOpen(true);
     };
 
-    const handleUpdateContactStatus = (id: string, status: ContactSubmission['status']) => {
-        setContacts(contacts.map(c => c.id === id ? { ...c, status } : c));
+    const handleUpdateContactStatus = async (id: string, status: ContactSubmission['status']) => {
+        try {
+            await updateContactStatus(id, status);
+            setContacts(contacts.map(c => c.id === id ? { ...c, status } : c));
+        } catch (error) {
+            console.error('Error updating contact status:', error);
+            alert('Failed to update contact status');
+        }
     };
 
-    const handleDeleteContact = (id: string) => {
-        setContacts(contacts.filter(c => c.id !== id));
+    const handleDeleteContact = async (id: string) => {
+        if (!confirm('Are you sure you want to delete this contact?')) return;
+        try {
+            await deleteContactSubmission(id);
+            setContacts(contacts.filter(c => c.id !== id));
+        } catch (error) {
+            console.error('Error deleting contact:', error);
+            alert('Failed to delete contact');
+        }
     };
 
-    const handleToggleJobActive = (id: string) => {
-        setJobs(jobs.map(j => j.id === id ? { ...j, isActive: !j.isActive } : j));
+    const handleToggleJobActive = async (id: string) => {
+        const job = jobs.find(j => j.id === id);
+        if (!job) return;
+
+        try {
+            await updateJob(id, { isActive: !job.isActive });
+            setJobs(jobs.map(j => j.id === id ? { ...j, isActive: !j.isActive } : j));
+        } catch (error) {
+            console.error('Error updating job:', error);
+            alert('Failed to update job status');
+        }
     };
 
-    const handleDeleteJob = (id: string) => {
-        setJobs(jobs.filter(j => j.id !== id));
+    const handleDeleteJob = async (id: string) => {
+        if (!confirm('Are you sure you want to delete this job?')) return;
+        try {
+            await deleteJob(id);
+            setJobs(jobs.filter(j => j.id !== id));
+        } catch (error) {
+            console.error('Error deleting job:', error);
+            alert('Failed to delete job');
+        }
     };
 
-    const handleAddJob = () => {
-        if (newJob.title && newJob.description) {
-            const job: Job = {
-                id: Date.now().toString(),
+    const handleAddJob = async () => {
+        if (!newJob.title || !newJob.description) {
+            alert('Please fill in title and description');
+            return;
+        }
+
+        try {
+            const jobId = await addJob({
                 title: newJob.title,
                 location: newJob.location || 'Lucknow, Uttar Pradesh',
                 type: newJob.type || 'Full-time',
                 description: newJob.description,
                 requirements: newJob.requirements || [],
                 isActive: true,
-                createdAt: new Date().toISOString().split('T')[0]
+            });
+
+            const job: Job = {
+                id: jobId,
+                title: newJob.title,
+                location: newJob.location || 'Lucknow, Uttar Pradesh',
+                type: newJob.type || 'Full-time',
+                description: newJob.description,
+                requirements: newJob.requirements || [],
+                isActive: true,
+                createdAt: new Date()
             };
             setJobs([...jobs, job]);
             setNewJob({
@@ -261,6 +222,9 @@ export default function SolarAdminPage() {
                 isActive: true
             });
             setJobDialogOpen(false);
+        } catch (error) {
+            console.error('Error adding job:', error);
+            alert('Failed to add job');
         }
     };
 
@@ -281,25 +245,61 @@ export default function SolarAdminPage() {
         });
     };
 
-    const handleToggleEmployeeActive = (id: string) => {
-        setEmployees(employees.map(e => e.id === id ? { ...e, isActive: !e.isActive } : e));
+    const handleToggleEmployeeActive = async (id: string) => {
+        const employee = employees.find(e => e.id === id);
+        if (!employee) return;
+
+        try {
+            await updateEmployee(id, { isActive: !employee.isActive });
+            setEmployees(employees.map(e => e.id === id ? { ...e, isActive: !e.isActive } : e));
+        } catch (error) {
+            console.error('Error updating employee:', error);
+            alert('Failed to update employee status');
+        }
     };
 
-    const handleDeleteEmployee = (id: string) => {
-        setEmployees(employees.filter(e => e.id !== id));
+    const handleDeleteEmployee = async (id: string) => {
+        // Check if current user is admin - only admins can delete employees
+        const currentUser = employees.find(e => e.email === user?.email);
+        if (currentUser?.role !== 'admin') {
+            alert('Only administrators can delete employees');
+            return;
+        }
+
+        if (!confirm('Are you sure you want to delete this employee?')) return;
+        try {
+            await deleteEmployee(id);
+            setEmployees(employees.filter(e => e.id !== id));
+        } catch (error) {
+            console.error('Error deleting employee:', error);
+            alert('Failed to delete employee');
+        }
     };
 
-    const handleAddEmployee = () => {
-        if (newEmployee.name && newEmployee.email) {
-            const employee: Employee = {
-                id: Date.now().toString(),
+    const handleAddEmployee = async () => {
+        if (!newEmployee.name || !newEmployee.email) {
+            alert('Please fill in name and email');
+            return;
+        }
+
+        try {
+            const employeeId = await addEmployee({
                 name: newEmployee.name,
                 email: newEmployee.email,
                 phone: newEmployee.phone || '',
                 role: newEmployee.role as Employee['role'] || 'employee',
                 isActive: true,
-                createdAt: new Date().toISOString().split('T')[0],
-                lastLogin: 'Never'
+            });
+
+            const employee: Employee = {
+                id: employeeId,
+                name: newEmployee.name,
+                email: newEmployee.email,
+                phone: newEmployee.phone || '',
+                role: newEmployee.role as Employee['role'] || 'employee',
+                isActive: true,
+                createdAt: new Date(),
+                lastLogin: new Date()
             };
             setEmployees([...employees, employee]);
             setNewEmployee({
@@ -310,6 +310,9 @@ export default function SolarAdminPage() {
                 isActive: true
             });
             setEmployeeDialogOpen(false);
+        } catch (error) {
+            console.error('Error adding employee:', error);
+            alert('Failed to add employee');
         }
     };
 
@@ -339,8 +342,16 @@ export default function SolarAdminPage() {
         }
     };
 
+    if (loading) {
+        return (
+            <div className="min-h-screen flex items-center justify-center">
+                <div className="text-white">Loading...</div>
+            </div>
+        );
+    }
+
     // Login Page
-    if (!isLoggedIn) {
+    if (!user || !isAdmin) {
         return (
             <div className="min-h-screen bg-gradient-to-br from-blue-900 via-blue-800 to-blue-900 flex items-center justify-center p-4">
                 <div className="absolute inset-0 overflow-hidden">
@@ -363,7 +374,7 @@ export default function SolarAdminPage() {
                                 <Input
                                     id="email"
                                     type="email"
-                                    placeholder="admin@orinteksolar.com"
+                                    placeholder="email"
                                     value={loginForm.email}
                                     onChange={(e) => setLoginForm({ ...loginForm, email: e.target.value })}
                                     className="mt-1"
@@ -388,13 +399,6 @@ export default function SolarAdminPage() {
                                 Login to Admin Panel
                             </Button>
                         </form>
-
-                        <div className="mt-6 p-4 bg-blue-50 rounded-lg">
-                            <p className="text-sm text-blue-800 text-center">
-                                <strong>Demo Access:</strong><br />
-                                Enter any email and password to login
-                            </p>
-                        </div>
                     </CardContent>
                 </Card>
             </div>
@@ -425,7 +429,7 @@ export default function SolarAdminPage() {
 
             <div className="max-w-7xl mx-auto px-4 py-8">
                 <Tabs defaultValue="contacts" className="space-y-6">
-                    <TabsList className="grid w-full grid-cols-4 lg:w-auto lg:inline-grid">
+                    <TabsList className="grid w-full grid-cols-5 lg:w-auto lg:inline-grid">
                         <TabsTrigger value="contacts" className="gap-2">
                             <MessageSquare className="w-4 h-4" />
                             <span className="hidden sm:inline">Contact Inquiries</span>
@@ -434,6 +438,11 @@ export default function SolarAdminPage() {
                         <TabsTrigger value="jobs" className="gap-2">
                             <Briefcase className="w-4 h-4" />
                             <span className="hidden sm:inline">Jobs</span>
+                        </TabsTrigger>
+                        <TabsTrigger value="applications" className="gap-2">
+                            <FileText className="w-4 h-4" />
+                            <span className="hidden sm:inline">Applications</span>
+                            <Badge variant="secondary" className="ml-1">{jobApplications.length}</Badge>
                         </TabsTrigger>
                         <TabsTrigger value="employees" className="gap-2">
                             <Users className="w-4 h-4" />
@@ -535,21 +544,24 @@ export default function SolarAdminPage() {
                                                                         <Button
                                                                             size="sm"
                                                                             variant="outline"
-                                                                            onClick={() => handleUpdateContactStatus(selectedContact.id, 'new')}
+                                                                            onClick={() => handleUpdateContactStatus(selectedContact!.id!, 'new')}
+                                                                            disabled={!isCurrentUserAdmin}
                                                                         >
                                                                             Mark New
                                                                         </Button>
                                                                         <Button
                                                                             size="sm"
                                                                             variant="outline"
-                                                                            onClick={() => handleUpdateContactStatus(selectedContact.id, 'contacted')}
+                                                                            onClick={() => handleUpdateContactStatus(selectedContact!.id!, 'contacted')}
+                                                                            disabled={!isCurrentUserAdmin}
                                                                         >
                                                                             Mark Contacted
                                                                         </Button>
                                                                         <Button
                                                                             size="sm"
                                                                             variant="outline"
-                                                                            onClick={() => handleUpdateContactStatus(selectedContact.id, 'closed')}
+                                                                            onClick={() => handleUpdateContactStatus(selectedContact!.id!, 'closed')}
+                                                                            disabled={!isCurrentUserAdmin}
                                                                         >
                                                                             Mark Closed
                                                                         </Button>
@@ -563,7 +575,8 @@ export default function SolarAdminPage() {
                                                     variant="ghost"
                                                     size="sm"
                                                     className="text-red-500 hover:text-red-700 hover:bg-red-50"
-                                                    onClick={() => handleDeleteContact(contact.id)}
+                                                    onClick={() => handleDeleteContact(contact.id!)}
+                                                    disabled={!isCurrentUserAdmin}
                                                 >
                                                     <Trash2 className="w-4 h-4" />
                                                 </Button>
@@ -590,7 +603,7 @@ export default function SolarAdminPage() {
                                 </div>
                                 <Dialog open={jobDialogOpen} onOpenChange={setJobDialogOpen}>
                                     <DialogTrigger asChild>
-                                        <Button className="bg-blue-600 hover:bg-blue-700">
+                                        <Button className="bg-blue-600 hover:bg-blue-700" disabled={currentUserRole === 'manager'}>
                                             <Plus className="w-4 h-4 mr-2" />
                                             Add New Job
                                         </Button>
@@ -710,7 +723,7 @@ export default function SolarAdminPage() {
                                                     </span>
                                                     <span className="flex items-center gap-1">
                                                         <Calendar className="w-3 h-3" />
-                                                        {job.createdAt}
+                                                        {job.createdAt.toLocaleDateString()}
                                                     </span>
                                                 </div>
                                             </div>
@@ -718,8 +731,9 @@ export default function SolarAdminPage() {
                                                 <Button
                                                     variant="ghost"
                                                     size="sm"
-                                                    onClick={() => handleToggleJobActive(job.id)}
+                                                    onClick={() => handleToggleJobActive(job.id!)}
                                                     className={job.isActive ? 'text-yellow-500' : 'text-green-500'}
+                                                    disabled={!isCurrentUserAdmin}
                                                 >
                                                     {job.isActive ? (
                                                         <>
@@ -737,13 +751,71 @@ export default function SolarAdminPage() {
                                                     variant="ghost"
                                                     size="sm"
                                                     className="text-red-500 hover:text-red-700 hover:bg-red-50"
-                                                    onClick={() => handleDeleteJob(job.id)}
+                                                    onClick={() => handleDeleteJob(job.id!)}
+                                                    disabled={!isCurrentUserAdmin}
                                                 >
                                                     <Trash2 className="w-4 h-4" />
                                                 </Button>
                                             </div>
                                         </div>
                                     ))}
+                                </div>
+                            </CardContent>
+                        </Card>
+                    </TabsContent>
+
+                    {/* Job Applications Tab */}
+                    <TabsContent value="applications">
+                        <Card>
+                            <CardHeader>
+                                <CardTitle className="flex items-center gap-2">
+                                    <FileText className="w-5 h-5" />
+                                    Job Applications
+                                </CardTitle>
+                                <CardDescription>
+                                    Review and manage job applications
+                                </CardDescription>
+                            </CardHeader>
+                            <CardContent>
+                                <div className="space-y-4">
+                                    {jobApplications.length === 0 ? (
+                                        <p className="text-gray-500 text-center py-8">No job applications yet</p>
+                                    ) : (
+                                        jobApplications.map((application) => (
+                                            <div
+                                                key={application.id}
+                                                className="flex flex-col md:flex-row md:items-center justify-between p-4 border rounded-lg hover:bg-gray-50 gap-4"
+                                            >
+                                                <div className="flex-1">
+                                                    <div className="flex items-center gap-2 mb-1">
+                                                        <h4 className="font-semibold">{application.name}</h4>
+                                                        <Badge variant="outline">{application.status}</Badge>
+                                                    </div>
+                                                    <div className="flex flex-wrap gap-4 text-sm text-gray-600">
+                                                        <span className="flex items-center gap-1">
+                                                            <Mail className="w-3 h-3" />
+                                                            {application.email}
+                                                        </span>
+                                                        <span className="flex items-center gap-1">
+                                                            <Phone className="w-3 h-3" />
+                                                            {application.phone}
+                                                        </span>
+                                                        <span className="flex items-center gap-1">
+                                                            <Briefcase className="w-3 h-3" />
+                                                            {application.position}
+                                                        </span>
+                                                        <span className="flex items-center gap-1">
+                                                            <Calendar className="w-3 h-3" />
+                                                            {application.appliedAt.toLocaleDateString()}
+                                                        </span>
+                                                    </div>
+                                                    <p className="text-sm text-gray-500 mt-1">
+                                                        Experience: {application.experience}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        ))
+                                    )}
                                 </div>
                             </CardContent>
                         </Card>
@@ -764,7 +836,7 @@ export default function SolarAdminPage() {
                                 </div>
                                 <Dialog open={employeeDialogOpen} onOpenChange={setEmployeeDialogOpen}>
                                     <DialogTrigger asChild>
-                                        <Button className="bg-blue-600 hover:bg-blue-700">
+                                        <Button className="bg-blue-600 hover:bg-blue-700" disabled={!isCurrentUserAdmin}>
                                             <UserPlus className="w-4 h-4 mr-2" />
                                             Add Employee
                                         </Button>
@@ -864,7 +936,7 @@ export default function SolarAdminPage() {
                                                     </span>
                                                     <span className="flex items-center gap-1">
                                                         <Calendar className="w-3 h-3" />
-                                                        Last login: {employee.lastLogin}
+                                                        Last login: {employee.lastLogin.toLocaleDateString()}
                                                     </span>
                                                 </div>
                                             </div>
@@ -872,8 +944,9 @@ export default function SolarAdminPage() {
                                                 <Button
                                                     variant="ghost"
                                                     size="sm"
-                                                    onClick={() => handleToggleEmployeeActive(employee.id)}
+                                                    onClick={() => handleToggleEmployeeActive(employee.id!)}
                                                     className={employee.isActive ? 'text-red-500' : 'text-green-500'}
+                                                    disabled={!isCurrentUserAdmin}
                                                 >
                                                     {employee.isActive ? (
                                                         <>
@@ -891,7 +964,8 @@ export default function SolarAdminPage() {
                                                     variant="ghost"
                                                     size="sm"
                                                     className="text-red-500 hover:text-red-700 hover:bg-red-50"
-                                                    onClick={() => handleDeleteEmployee(employee.id)}
+                                                    onClick={() => handleDeleteEmployee(employee.id!)}
+                                                    disabled={!isCurrentUserAdmin}
                                                 >
                                                     <Trash2 className="w-4 h-4" />
                                                 </Button>

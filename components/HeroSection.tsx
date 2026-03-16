@@ -17,7 +17,7 @@ export default function HeroSection() {
         playsInline
         className="absolute inset-0 w-full h-full object-cover"
       >
-        <source src="/hero-gif.mp4" type="video/mp4" />
+        <source src="/videos.mp4" type="video/mp4" />
       </video>
 
       {/* Gradient Overlay */}

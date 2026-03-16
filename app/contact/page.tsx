@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { MapPin, Phone, Mail, Clock, Send, MessageCircle, Sun, Zap, Leaf } from 'lucide-react';
 import { useState } from 'react';
+import { addContactSubmission } from '@/lib/firebase-db';
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -20,11 +21,26 @@ export default function ContactPage() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
-    setFormData({ name: '', email: '', phone: '', message: '', subject: '' });
-    alert('Thank you! We will contact you soon.');
+
+    try {
+      await addContactSubmission({
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        subject: formData.subject || 'General Inquiry',
+        message: formData.message,
+        date: new Date().toISOString().split('T')[0],
+        status: 'new',
+      });
+
+      setFormData({ name: '', email: '', phone: '', message: '', subject: '' });
+      alert('Thank you! We will contact you soon.');
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      alert('There was an error submitting your form. Please try again.');
+    }
   };
 
   const sendToWhatsApp = () => {
@@ -103,7 +119,7 @@ Looking for Solar Panel in Lucknow? Contact us for best deals!`);
       {/* Quick Contact Cards */}
       <section className="relative -mt-12 z-10">
         <div className="max-w-6xl mx-auto px-6">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <Card className="p-6 shadow-xl hover:shadow-2xl transition-all hover:-translate-y-1 bg-white border-t-4" style={{ borderTopColor: COLORS.primary }}>
               <div className="flex items-center gap-4">
                 <div className="w-14 h-14 rounded-full flex items-center justify-center" style={{ backgroundColor: COLORS.lightBlue }}>
@@ -127,20 +143,6 @@ Looking for Solar Panel in Lucknow? Contact us for best deals!`);
                   <p className="text-sm text-gray-500 font-medium">WhatsApp</p>
                   <a href="https://wa.me/918933814898" className="text-lg font-bold text-green-600">
                     Chat on WhatsApp
-                  </a>
-                </div>
-              </div>
-            </Card>
-
-            <Card className="p-6 shadow-xl hover:shadow-2xl transition-all hover:-translate-y-1 bg-white border-t-4" style={{ borderTopColor: COLORS.gold }}>
-              <div className="flex items-center gap-4">
-                <div className="w-14 h-14 rounded-full flex items-center justify-center bg-amber-100">
-                  <Mail className="w-6 h-6 text-amber-600" />
-                </div>
-                <div>
-                  <p className="text-sm text-gray-500 font-medium">Email</p>
-                  <a href="mailto:orinteksolar@gmail.com" className="text-lg font-bold text-amber-600">
-                    orinteksolar@gmail.com
                   </a>
                 </div>
               </div>

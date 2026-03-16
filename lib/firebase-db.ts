@@ -1,0 +1,198 @@
+import { collection, addDoc, getDocs, doc, updateDoc, deleteDoc, query, orderBy, where, Timestamp } from 'firebase/firestore';
+import { getDbService } from './firebase';
+
+// Contact Submissions
+export interface ContactSubmission {
+  id?: string;
+  name: string;
+  email: string;
+  phone: string;
+  subject: string;
+  message: string;
+  date: string;
+  status: 'new' | 'contacted' | 'closed';
+  createdAt: Date;
+}
+
+export const addContactSubmission = async (submission: Omit<ContactSubmission, 'id' | 'createdAt'>) => {
+  const db = await getDbService();
+  if (!db) throw new Error('Database not available');
+
+  const docRef = await addDoc(collection(db, 'contactSubmissions'), {
+    ...submission,
+    createdAt: Timestamp.now(),
+  });
+  return docRef.id;
+};
+
+export const getContactSubmissions = async (): Promise<ContactSubmission[]> => {
+  const db = await getDbService();
+  if (!db) return [];
+
+  const q = query(collection(db, 'contactSubmissions'), orderBy('createdAt', 'desc'));
+  const querySnapshot = await getDocs(q);
+
+  return querySnapshot.docs.map(doc => ({
+    id: doc.id,
+    ...doc.data(),
+    date: doc.data().createdAt?.toDate()?.toISOString().split('T')[0] || new Date().toISOString().split('T')[0],
+    createdAt: doc.data().createdAt?.toDate() || new Date(),
+  })) as ContactSubmission[];
+};
+
+export const updateContactStatus = async (id: string, status: ContactSubmission['status']) => {
+  const db = await getDbService();
+  if (!db) throw new Error('Database not available');
+
+  await updateDoc(doc(db, 'contactSubmissions', id), { status });
+};
+
+export const deleteContactSubmission = async (id: string) => {
+  const db = await getDbService();
+  if (!db) throw new Error('Database not available');
+
+  await deleteDoc(doc(db, 'contactSubmissions', id));
+};
+
+// Jobs
+export interface Job {
+  id?: string;
+  title: string;
+  location: string;
+  type: string;
+  description: string;
+  requirements: string[];
+  isActive: boolean;
+  createdAt: Date;
+}
+
+export const addJob = async (job: Omit<Job, 'id' | 'createdAt'>) => {
+  const db = await getDbService();
+  if (!db) throw new Error('Database not available');
+
+  const docRef = await addDoc(collection(db, 'jobs'), {
+    ...job,
+    createdAt: Timestamp.now(),
+  });
+  return docRef.id;
+};
+
+export const getJobs = async (): Promise<Job[]> => {
+  const db = await getDbService();
+  if (!db) return [];
+
+  const q = query(collection(db, 'jobs'), orderBy('createdAt', 'desc'));
+  const querySnapshot = await getDocs(q);
+
+  return querySnapshot.docs.map(doc => ({
+    id: doc.id,
+    ...doc.data(),
+    createdAt: doc.data().createdAt?.toDate() || new Date(),
+  })) as Job[];
+};
+
+export const updateJob = async (id: string, updates: Partial<Job>) => {
+  const db = await getDbService();
+  if (!db) throw new Error('Database not available');
+
+  await updateDoc(doc(db, 'jobs', id), updates);
+};
+
+export const deleteJob = async (id: string) => {
+  const db = await getDbService();
+  if (!db) throw new Error('Database not available');
+
+  await deleteDoc(doc(db, 'jobs', id));
+};
+
+// Employees
+export interface Employee {
+  id?: string;
+  name: string;
+  email: string;
+  phone: string;
+  role: 'admin' | 'manager' | 'employee';
+  isActive: boolean;
+  createdAt: Date;
+  lastLogin: Date;
+}
+
+export const addEmployee = async (employee: Omit<Employee, 'id' | 'createdAt' | 'lastLogin'>) => {
+  const db = await getDbService();
+  if (!db) throw new Error('Database not available');
+
+  const docRef = await addDoc(collection(db, 'employees'), {
+    ...employee,
+    createdAt: Timestamp.now(),
+    lastLogin: Timestamp.now(),
+  });
+  return docRef.id;
+};
+
+export const getEmployees = async (): Promise<Employee[]> => {
+  const db = await getDbService();
+  if (!db) return [];
+
+  const q = query(collection(db, 'employees'), orderBy('createdAt', 'desc'));
+  const querySnapshot = await getDocs(q);
+
+  return querySnapshot.docs.map(doc => ({
+    id: doc.id,
+    ...doc.data(),
+    createdAt: doc.data().createdAt?.toDate() || new Date(),
+    lastLogin: doc.data().lastLogin?.toDate() || new Date(),
+  })) as Employee[];
+};
+
+export const updateEmployee = async (id: string, updates: Partial<Employee>) => {
+  const db = await getDbService();
+  if (!db) throw new Error('Database not available');
+
+  await updateDoc(doc(db, 'employees', id), updates);
+};
+
+export const deleteEmployee = async (id: string) => {
+  const db = await getDbService();
+  if (!db) throw new Error('Database not available');
+
+  await deleteDoc(doc(db, 'employees', id));
+};
+
+// Job Applications
+export interface JobApplication {
+  id?: string;
+  name: string;
+  email: string;
+  phone: string;
+  position: string;
+  experience: string;
+  resumeUrl?: string;
+  status: 'new' | 'reviewed' | 'shortlisted' | 'rejected';
+  appliedAt: Date;
+}
+
+export const addJobApplication = async (application: Omit<JobApplication, 'id' | 'appliedAt' | 'status'>) => {
+  const db = await getDbService();
+  if (!db) throw new Error('Database not available');
+
+  const docRef = await addDoc(collection(db, 'jobApplications'), {
+    ...application,
+    status: 'new',
+    appliedAt: Timestamp.now(),
+  });
+  return docRef.id;
+};
+
+export const getJobApplications = async (): Promise<JobApplication[]> => {
+  const db = await getDbService();
+  if (!db) return [];
+
+  const q = query(collection(db, 'jobApplications'), orderBy('appliedAt', 'desc'));
+  const querySnapshot = await getDocs(q);
+
+  return querySnapshot.docs.map(doc => ({
+    id: doc.id,
+    ...doc.data(),
+    appliedAt: doc.data().appliedAt?.toDate() || new Date(),
+  })) as JobApplication[];
+};
