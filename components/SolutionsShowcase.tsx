@@ -1,8 +1,6 @@
 'use client';
 
 import { Card } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import Link from 'next/link';
 import Image from 'next/image';
 import { COLORS, SOLUTIONS } from '@/lib/constants';
 
@@ -25,32 +23,26 @@ export default function SolutionsShowcase() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {SOLUTIONS.map((solution) => (
-            <Link key={solution.id} href={`/solar-solutions/${solution.id}`}>
-              <Card className="overflow-hidden hover:shadow-lg transition-shadow cursor-pointer h-full">
-                <div className="h-64 relative bg-gray-200 overflow-hidden">
-                  <Image
-                    src={solutionImages[solution.id] || '/images/solar-homes.jpg'}
-                    alt={solution.title}
-                    fill
-                    className="object-cover hover:scale-105 transition-transform duration-300"
-                  />
-                  <div className="absolute inset-0 bg-black/20"></div>
-                </div>
-                <div className="p-6">
-                  <h3 className="text-2xl font-bold mb-2" style={{ color: COLORS.primary }}>
-                    {solution.title}
-                  </h3>
-                  <p className="text-gray-600 mb-4">{solution.description}</p>
-                  <Button
-                    variant="outline"
-                    className="w-full border-2"
-                    style={{ borderColor: COLORS.primary, color: COLORS.primary }}
-                  >
-                    Learn More →
-                  </Button>
-                </div>
-              </Card>
-            </Link>
+            <Card
+              key={solution.id}
+              className="overflow-hidden hover:shadow-lg transition-shadow h-full"
+            >
+              <div className="h-64 relative bg-gray-200 overflow-hidden">
+                <Image
+                  src={solutionImages[solution.id] || '/images/solar-homes.jpg'}
+                  alt={solution.title}
+                  fill
+                  className="object-cover hover:scale-105 transition-transform duration-300"
+                />
+                <div className="absolute inset-0 bg-black/20"></div>
+              </div>
+              <div className="p-6">
+                <h3 className="text-2xl font-bold mb-2" style={{ color: COLORS.primary }}>
+                  {solution.title}
+                </h3>
+                <p className="text-gray-600 mb-4">{solution.description}</p>
+              </div>
+            </Card>
           ))}
         </div>
       </div>

@@ -6,26 +6,31 @@ import Link from 'next/link';
 
 export default function HeroSection() {
   return (
-    <section
-      className="relative w-full h-screen flex items-center justify-center overflow-hidden"
-    >
-      {/* Video Background */}
-      <video
-        autoPlay
-        loop
-        muted
-        playsInline
+    <section className="relative w-full h-screen flex items-center justify-center overflow-hidden">
+      {/* Video background removed as requested. */}
+      {(
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover"
+        >
+          <source src="/sunride-gif.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+      )}
+      <img
+        src="/solar-panels-roof-solar-cell.jpg"
+        alt="Solar panels on a roof"
         className="absolute inset-0 w-full h-full object-cover"
-      >
-        <source src="/videos.mp4" type="video/mp4" />
-      </video>
-
-      {/* Gradient Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-blue-950/40 to-blue-900/30"></div>
+      />
+      <div className="absolute inset-0 bg-gradient-to-b from-blue-950/40 to-blue-900/30">
+      </div>
 
       <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">
         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
-          Power Your Future with Clean Solar Energy
+          Power Your ☀️ Future with Clean Solar Energy
         </h1>
         <p className="text-xl sm:text-2xl mb-8 text-gray-100">
           Save up to 90% on electricity costs and make a difference for the planet. Your journey to energy independence starts today.

@@ -1,7 +1,6 @@
 import { COLORS, SOLUTIONS } from '@/lib/constants';
 import { Card } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import Link from 'next/link';
+import PowerRatingCards from '@/components/PowerRatingCards';
 
 export default function SolarSolutionsPage() {
   return (
@@ -23,33 +22,33 @@ export default function SolarSolutionsPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {SOLUTIONS.map((solution) => (
-              <Link key={solution.id} href={`/solar-solutions/${solution.id}`}>
-                <Card className="overflow-hidden hover:shadow-lg transition-shadow cursor-pointer h-full flex flex-col">
-                  <div
-                    className="h-64 flex items-center justify-center text-6xl"
-                    style={{
-                      backgroundImage: `linear-gradient(135deg, ${COLORS.primary}80, ${COLORS.gold}80)`,
-                    }}
-                  >
-                    ☀️
-                  </div>
-                  <div className="p-8 flex-grow flex flex-col">
-                    <h3 className="text-3xl font-bold mb-4" style={{ color: COLORS.primary }}>
-                      {solution.title}
-                    </h3>
-                    <p className="text-gray-700 mb-6 flex-grow">{solution.description}</p>
-                    <Button
-                      className="text-white font-bold w-full"
-                      style={{ backgroundColor: COLORS.primary }}
-                    >
-                      Explore →
-                    </Button>
-                  </div>
-                </Card>
-              </Link>
+              <Card
+                key={solution.id}
+                className="overflow-hidden hover:shadow-lg transition-shadow h-full flex flex-col"
+              >
+                <div
+                  className="h-64 flex items-center justify-center text-6xl"
+                  style={{
+                    backgroundImage: `linear-gradient(135deg, ${COLORS.primary}80, ${COLORS.gold}80)`,
+                  }}
+                >
+                  ☀️
+                </div>
+                <div className="p-8 flex-grow flex flex-col">
+                  <h3 className="text-3xl font-bold mb-4" style={{ color: COLORS.primary }}>
+                    {solution.title}
+                  </h3>
+                  <p className="text-gray-700 mb-6 flex-grow">{solution.description}</p>
+                </div>
+              </Card>
             ))}
           </div>
         </div>
+      </section>
+
+      {/* Power Rating Cards */}
+      <section className="py-12 bg-gray-50">
+        <PowerRatingCards />
       </section>
 
       {/* Comparison Section */}

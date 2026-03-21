@@ -6,6 +6,10 @@ import GoogleRatingSection from '@/components/GoogleRatingSection';
 import SolarCompaniesSection from '@/components/SolarCompaniesSection';
 import Chatbot from '@/components/Chatbot';
 import { COLORS } from '@/lib/constants';
+<<<<<<< HEAD
+=======
+import { Sun, Zap, Award, Users, Phone, Mail, MapPin } from 'lucide-react';
+>>>>>>> daec5a4 (newheroimage)
 
 export default function Home() {
   return (

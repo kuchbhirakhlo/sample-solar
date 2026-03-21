@@ -130,13 +130,9 @@ export default function PortfolioPage() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-amber-50 to-orange-50">
       {/* Hero Section */}
-      <section className="relative py-28 overflow-hidden" style={{ backgroundColor: COLORS.primary }}>
-        {/* Background Pattern */}
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-10 left-10 w-32 h-32 bg-white rounded-full blur-3xl"></div>
-          <div className="absolute bottom-10 right-10 w-48 h-48 bg-amber-300 rounded-full blur-3xl"></div>
-          <div className="absolute top-1/2 left-1/2 w-64 h-64 bg-yellow-200 rounded-full blur-3xl"></div>
-        </div>
+      <section className="relative py-28 overflow-hidden bg-cover bg-center" style={{ backgroundImage: 'url(/representation-ecology-sustainability.jpg)' }}>
+        {/* Dark Overlay */}
+        <div className="absolute inset-0 bg-black/50"></div>
         
         <div className="relative max-w-6xl mx-auto px-6 text-center">
           <div className="inline-flex items-center gap-2 bg-white/20 text-white px-4 py-2 rounded-full mb-6">
@@ -147,8 +143,8 @@ export default function PortfolioPage() {
             Our <span className="text-yellow-300">Portfolio</span>
           </h1>
           <p className="text-xl text-white/90 max-w-3xl mx-auto mb-8">
-            Explore our successful solar installations across <strong>Lucknow, Uttar Pradesh</strong>. 
-            From residential rooftops to industrial solar farms - we've powered 1000+ homes and businesses.
+           Welcome to the India’s most advanced solar energy service provider company. We have collated panel data from manufacturers from all around the world into a common template, allowing you to compare and review panels easily. <br/>         
+          We are available to install a happy life in the form of a SOLAR PANEL for your home and commercial needs. Established in 2025 M/s. ORINTEK SOLAR ENERGY SOLUTIONS has built a reputation for quality excellence and is committed to upholding that standard of service providing reliable & affordable Solar solutions and trusted experts in residential & commercial solar energy approved by Uttar Pradesh Government & empaneled with the UPNEDA.
           </p>
           <div className="flex flex-wrap justify-center gap-8 text-white/90">
             <div className="flex items-center gap-3">
@@ -156,7 +152,7 @@ export default function PortfolioPage() {
                 <TrendingUp className="w-6 h-6" />
               </div>
               <div className="text-left">
-                <p className="text-2xl font-bold">1000+</p>
+                <p className="text-2xl font-bold">937+</p>
                 <p className="text-sm text-white/80">Projects Completed</p>
               </div>
             </div>
@@ -165,7 +161,7 @@ export default function PortfolioPage() {
                 <Zap className="w-6 h-6" />
               </div>
               <div className="text-left">
-                <p className="text-2xl font-bold">500 MW</p>
+                <p className="text-2xl font-bold">423 MW</p>
                 <p className="text-sm text-white/80">Total Capacity</p>
               </div>
             </div>
@@ -174,7 +170,7 @@ export default function PortfolioPage() {
                 <Award className="w-6 h-6" />
               </div>
               <div className="text-left">
-                <p className="text-2xl font-bold">₹1000Cr</p>
+                <p className="text-2xl font-bold">₹27Cr</p>
                 <p className="text-sm text-white/80">Customer Savings</p>
               </div>
             </div>

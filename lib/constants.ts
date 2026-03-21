@@ -12,11 +12,19 @@ export const SITE_CONFIG = {
 };
 
 export const NAV_ITEMS = [
+<<<<<<< HEAD
   { label: 'Our Offerings', href: '#recent-installations' },
   { label: 'About Us', href: '#about-us' },
   { label: 'Brands', href: '#brands' },
   { label: 'Solar Solutions', href: '#solar-solutions' },
   { label: 'Contact Us', href: '/contact' },
+=======
+  { label: 'Our Offerings', href: '/#offerings' },
+  { label: 'Solar Solutions', href: '/solar-solutions' },
+  { label: 'Contact', href: '/contact' },
+  { label: 'Careers', href: '/career' },
+  { label: 'Blog', href: '/blog' },
+>>>>>>> daec5a4 (newheroimage)
 ];
 
 export const COLORS = {
