@@ -1,15 +1,19 @@
+'use client';
+
 import { COLORS, SOLUTIONS } from '@/lib/constants';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import { useQuote } from '@/lib/quote-context';
 
 export default function SolutionDetailPage({
   params,
 }: {
-  params: Promise<{ category: string }>;
+  params: { category: string };
 }) {
-  const unwrappedParams = params as unknown as { category: string };
+  const { setIsQuoteOpen } = useQuote();
+  const category = params.category;
   const solution = SOLUTIONS.find((s) => s.id === unwrappedParams.category);
 
   if (!solution) {
@@ -117,15 +121,14 @@ export default function SolutionDetailPage({
           <p className="text-xl text-gray-700 mb-8">
             Get a free personalized quote for your {solution.title.toLowerCase()} solar solution
           </p>
-          <Link href="/contact">
-            <Button
-              size="lg"
-              className="text-white font-bold text-lg"
-              style={{ backgroundColor: COLORS.primary }}
-            >
-              Get Free Quote
-            </Button>
-          </Link>
+          <Button
+            size="lg"
+            className="text-white font-bold text-lg"
+            style={{ backgroundColor: COLORS.primary }}
+            onClick={() => setIsQuoteOpen(true)}
+          >
+            Get Free Quote
+          </Button>
         </div>
       </section>
     </div>

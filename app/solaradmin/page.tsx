@@ -94,8 +94,7 @@ export default function SolarAdminPage() {
     };
 
     // Check if current user has admin privileges
-    const currentUserRole = employees.find(e => e.email === user?.email)?.role || 'employee';
-    const isCurrentUserAdmin = currentUserRole === 'admin';
+    const isCurrentUserAdmin = isAdmin;
 
     // Dialog states
     const [contactDialogOpen, setContactDialogOpen] = useState(false);

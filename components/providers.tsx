@@ -1,6 +1,7 @@
 'use client';
 
 import { ThemeProvider } from '@/components/theme-provider';
+import { QuoteProvider } from '@/lib/quote-context';
 import { useEffect, useState, Suspense } from 'react';
 import dynamic from 'next/dynamic';
 
@@ -27,11 +28,13 @@ export function Providers({ children }: { children: React.ReactNode }) {
       enableSystem={false}
       disableTransitionOnChange
     >
-      <Suspense fallback={null}>
-        <AuthProvider>
-          {children}
-        </AuthProvider>
-      </Suspense>
+      <QuoteProvider>
+        <Suspense fallback={null}>
+          <AuthProvider>
+            {children}
+          </AuthProvider>
+        </Suspense>
+      </QuoteProvider>
     </ThemeProvider>
   );
 }

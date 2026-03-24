@@ -1,13 +1,17 @@
+'use client';
+
 import { COLORS } from '@/lib/constants';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import { useQuote } from '@/lib/quote-context';
 
 export default function PortfolioDetailPage({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: { slug: string };
 }) {
-  const unwrappedParams = params as unknown as { slug: string };
+  const { setIsQuoteOpen } = useQuote();
+  const slug = params.slug;
 
   const projectData: Record<string, any> = {
     'mumbai-residential': {
@@ -251,15 +255,14 @@ export default function PortfolioDetailPage({
           <p className="text-xl text-gray-700 mb-8">
             Get a free customized quote based on your specific requirements
           </p>
-          <Link href="/contact">
-            <Button
-              size="lg"
-              className="text-white font-bold text-lg"
-              style={{ backgroundColor: COLORS.primary }}
-            >
-              Get Free Quote
-            </Button>
-          </Link>
+          <Button
+            size="lg"
+            className="text-white font-bold text-lg"
+            style={{ backgroundColor: COLORS.primary }}
+            onClick={() => setIsQuoteOpen(true)}
+          >
+            Get Free Quote
+          </Button>
         </div>
       </section>
 

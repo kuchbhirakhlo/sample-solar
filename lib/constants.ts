@@ -12,13 +12,12 @@ export const SITE_CONFIG = {
 };
 
 export const NAV_ITEMS = [
-  { label: 'Our Offerings', href: '/#offerings' },
-  { label: 'About Us', href: '#about-us' },
+  { label: 'Our Offerings', href: '/portfolio' },
+  { label: 'About Us', href: '/about' },
   { label: 'Brands', href: '#brands' },
   { label: 'Solar Solutions', href: '/solar-solutions' },
   { label: 'Contact', href: '/contact' },
   { label: 'Careers', href: '/career' },
-  { label: 'Blog', href: '/blog' },
 ];
 
 export const COLORS = {
@@ -36,19 +35,19 @@ export const SOLUTIONS = [
     id: 'homes',
     title: 'Homes',
     description: 'Residential solar solutions for your home',
-    image: '/images/solutions/homes.jpg',
+    image: '/solarimage/solarimage2026-03-14 at 11.28.33 (1).jpeg',
   },
   {
     id: 'housing-society',
     title: 'Housing Society',
     description: 'Community solar solutions for societies',
-    image: '/images/solutions/housing-society.jpg',
+    image: '/solarimage/solarimage2026-03-14 at 11.30.46 (2).jpeg',
   },
   {
     id: 'commercial',
     title: 'Commercial',
     description: 'Large-scale solar solutions for businesses',
-    image: '/images/solutions/commercial.jpg',
+    image: '/solarimage/solarimage2026-03-14 at 11.28.37 (1).jpeg',
   },
 ];
 

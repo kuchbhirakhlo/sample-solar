@@ -1,3 +1,5 @@
+'use client';
+
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import HeroSection from '@/components/HeroSection';
@@ -5,10 +7,13 @@ import RecentInstallationsSection from '@/components/RecentInstallationsSection'
 import GoogleRatingSection from '@/components/GoogleRatingSection';
 import SolarCompaniesSection from '@/components/SolarCompaniesSection';
 import Chatbot from '@/components/Chatbot';
+import { useQuote } from '@/lib/quote-context';
 import { COLORS } from '@/lib/constants';
 import { Sun, Zap, Award, Users, Phone, Mail, MapPin } from 'lucide-react';
 
 export default function Home() {
+  const { setIsQuoteOpen } = useQuote();
+
   return (
     <>
       <HeroSection />
@@ -86,34 +91,6 @@ export default function Home() {
       <div id="brands">
         <SolarCompaniesSection />
       </div>
-
-      {/* Our Solar Solutions Section */}
-      <section id="solar-solutions" className="py-20" style={{ backgroundColor: COLORS.lightBlue }}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-4xl font-bold text-center mb-4" style={{ color: COLORS.primary }}>
-            Our Solar Solutions
-          </h2>
-          <p className="text-center text-gray-600 text-lg mb-12 max-w-2xl mx-auto">
-            Discover our comprehensive solar energy solutions tailored for homes, businesses, and industries in Lucknow
-          </p>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow">
-              <h3 className="text-xl font-bold mb-3" style={{ color: COLORS.primary }}>Residential Solar</h3>
-              <p className="text-gray-600">Power your home with clean solar energy and reduce electricity bills by up to 90%.</p>
-            </div>
-            <div className="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow">
-              <h3 className="text-xl font-bold mb-3" style={{ color: COLORS.primary }}>Commercial Solar</h3>
-              <p className="text-gray-600">Industrial and commercial solar solutions for factories, offices, and businesses.</p>
-            </div>
-            <div className="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow">
-              <h3 className="text-xl font-bold mb-3" style={{ color: COLORS.primary }}>Housing Society</h3>
-              <p className="text-gray-600">Community solar solutions for apartments and housing societies in Lucknow.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-
       <GoogleRatingSection />
 
       {/* CTA Section */}
@@ -123,13 +100,13 @@ export default function Home() {
           <p className="text-xl mb-8 text-blue-100">
             Join thousands of Indians saving on electricity bills with ORINTEK Solar
           </p>
-          <a
-            href="/contact"
+          <button
+            onClick={() => setIsQuoteOpen(true)}
             className="inline-block px-8 py-4 rounded-lg font-bold text-lg transition-all hover:opacity-90"
             style={{ backgroundColor: COLORS.gold, color: COLORS.darkBlue }}
           >
             Get Free Quote Today
-          </a>
+          </button>
         </div>
       </section>
 

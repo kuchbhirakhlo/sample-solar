@@ -6,6 +6,21 @@ import { COLORS } from '@/lib/constants';
 const residentialRatings = ['3KW', '5KW', '7KW', '10KW', '12KW'];
 const commercialRatings = ['5KW', '10KW', '15KW', '20KW', '37KW', '50KW', '100KW', '160KW', '200KW'];
 
+const ratingImageMap: Record<string, string> = {
+  '3KW': '/images/solar-homes.jpg',
+  '5KW': '/images/solar-homes.jpg',
+  '7KW': '/images/solar-housing-society.jpg',
+  '10KW': '/images/solar-housing-society.jpg',
+  '12KW': '/images/solar-housing-society.jpg',
+  '15KW': '/images/solar-commercial.jpg',
+  '20KW': '/images/solar-commercial.jpg',
+  '37KW': '/images/solar-commercial.jpg',
+  '50KW': '/images/solar-commercial.jpg',
+  '100KW': '/images/solar-commercial.jpg',
+  '160KW': '/images/solar-commercial.jpg',
+  '200KW': '/images/solar-commercial.jpg',
+};
+
 export default function PowerRatingCards() {
   return (
     <div className="space-y-16">
@@ -21,13 +36,16 @@ export default function PowerRatingCards() {
                 key={rating}
                 className="overflow-hidden hover:shadow-lg transition-shadow h-full flex flex-col"
               >
-                <div
-                  className="h-48 flex items-center justify-center text-5xl font-bold text-white"
-                  style={{
-                    backgroundImage: `linear-gradient(135deg, ${COLORS.primary}90, ${COLORS.gold}90)`,
-                  }}
-                >
-                  {rating}
+                <div className="relative h-48 overflow-hidden">
+                  <img
+                    src={ratingImageMap[rating]}
+                    alt={`${rating} solar graphic`}
+                    className="absolute inset-0 w-full h-full object-cover transform transition-transform duration-500 hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-black/35" />
+                  <div className="relative z-10 h-full flex items-center justify-center text-5xl font-bold text-white">
+                    {rating}
+                  </div>
                 </div>
                 <div className="p-6 flex-grow flex flex-col">
                   <p className="text-gray-600 text-center text-sm">
@@ -60,13 +78,16 @@ export default function PowerRatingCards() {
                 key={rating}
                 className="overflow-hidden hover:shadow-lg transition-shadow h-full flex flex-col"
               >
-                <div
-                  className="h-48 flex items-center justify-center text-5xl font-bold text-white"
-                  style={{
-                    backgroundImage: `linear-gradient(135deg, ${COLORS.darkBlue}90, ${COLORS.primary}90)`,
-                  }}
-                >
-                  {rating}
+                <div className="relative h-48 overflow-hidden">
+                  <img
+                    src={ratingImageMap[rating]}
+                    alt={`${rating} commercial solar graphic`}
+                    className="absolute inset-0 w-full h-full object-cover transform transition-transform duration-500 hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-black/35" />
+                  <div className="relative z-10 h-full flex items-center justify-center text-5xl font-bold text-white">
+                    {rating}
+                  </div>
                 </div>
                 <div className="p-6 flex-grow flex flex-col">
                   <p className="text-gray-600 text-center text-sm">

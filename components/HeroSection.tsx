@@ -14,23 +14,37 @@ export default function HeroSection() {
           muted
           loop
           playsInline
-          className="absolute inset-0 w-full h-full object-cover"
+          className="absolute inset-0 object-cover"
+          style={{
+            width: '100%',
+            height: '100%',
+            filter: 'brightness(1) contrast(1.05)',
+            WebkitFilter: 'brightness(1) contrast(1.05)',
+            WebkitBackfaceVisibility: 'hidden',
+            backfaceVisibility: 'hidden',
+            transform: 'translate3d(0, 0, 0) scale(1)',
+            WebkitTransform: 'translate3d(0, 0, 0) scale(1)',
+            WebkitPerspective: 1000,
+            willChange: 'transform',
+            imageRendering: 'auto',
+            WebkitFontSmoothing: 'antialiased',
+            WebkitUserSelect: 'none',
+            userSelect: 'none',
+            WebkitTouchCallout: 'none',
+            zIndex: 1,
+            contain: 'strict',
+          } as React.CSSProperties}
         >
-          <source src="/sunride-gif.mp4" type="video/mp4" />
+          <source src="/sunrise-gif2.mp4" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
       )}
-      <img
-        src="/solar-panels-roof-solar-cell.jpg"
-        alt="Solar panels on a roof"
-        className="absolute inset-0 w-full h-full object-cover"
-      />
       <div className="absolute inset-0 bg-gradient-to-b from-blue-950/40 to-blue-900/30">
       </div>
 
       <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">
         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
-          Power Your ☀️ Future with Clean Solar Energy
+          Power Your Future with Clean Solar Energy
         </h1>
         <p className="text-xl sm:text-2xl mb-8 text-gray-100">
           Save up to 90% on electricity costs and make a difference for the planet. Your journey to energy independence starts today.

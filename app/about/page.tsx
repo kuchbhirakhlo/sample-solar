@@ -1,10 +1,15 @@
+'use client';
+
 import { COLORS } from '@/lib/constants';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { Card } from '@/components/ui/card';
 import { CheckCircle, Sun, Zap, Award, Users } from 'lucide-react';
+import { useQuote } from '@/lib/quote-context';
 
 export default function AboutPage() {
+  const { setIsQuoteOpen } = useQuote();
+
   return (
     <div>
       {/* Full Width About Section */}
@@ -91,15 +96,14 @@ export default function AboutPage() {
                 We provide reliable & affordable Solar solutions and are trusted experts in residential & commercial solar energy.
                 Our team is dedicated to helping you transition to clean, renewable energy while saving on electricity costs.
               </p>
-              <Link href="/contact">
-                <Button
-                  size="lg"
-                  className="text-white font-bold"
-                  style={{ backgroundColor: COLORS.primary }}
-                >
-                  Get Free Quote
-                </Button>
-              </Link>
+              <Button
+                size="lg"
+                className="text-white font-bold"
+                style={{ backgroundColor: COLORS.primary }}
+                onClick={() => setIsQuoteOpen(true)}
+              >
+                Get Free Quote
+              </Button>
             </div>
             <div className="flex justify-center">
               <img
@@ -228,15 +232,14 @@ export default function AboutPage() {
             Join hundreds of satisfied customers who have transformed their energy consumption with ORINTEK Solar.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/contact">
-              <Button
-                size="lg"
-                className="text-white font-bold px-8"
-                style={{ backgroundColor: COLORS.primary }}
-              >
-                Get Free Quote
-              </Button>
-            </Link>
+            <Button
+              size="lg"
+              className="text-white font-bold px-8"
+              style={{ backgroundColor: COLORS.primary }}
+              onClick={() => setIsQuoteOpen(true)}
+            >
+              Get Free Quote
+            </Button>
             <Link href="/services">
               <Button
                 size="lg"

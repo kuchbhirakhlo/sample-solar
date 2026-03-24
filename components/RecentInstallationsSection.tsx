@@ -1,8 +1,11 @@
+'use client';
+
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { COLORS } from '@/lib/constants';
 import { MapPin, Zap, ArrowRight } from 'lucide-react';
+import { useQuote } from '@/lib/quote-context';
 
 const projects = [
   {
@@ -38,6 +41,8 @@ const projects = [
 ];
 
 export default function RecentInstallationsSection() {
+  const { setIsQuoteOpen } = useQuote();
+
   return (
     <section className="py-20" style={{ backgroundColor: '#ffffff' }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -142,16 +147,15 @@ export default function RecentInstallationsSection() {
               <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Button>
           </Link>
-          <Link href="/contact">
-            <Button
-              size="lg"
-              variant="outline"
-              className="font-bold px-8 py-6 rounded-full group border-2"
-              style={{ borderColor: COLORS.primary, color: COLORS.primary }}
-            >
-              Get Free Quote
-            </Button>
-          </Link>
+          <Button
+            size="lg"
+            variant="outline"
+            className="font-bold px-8 py-6 rounded-full group border-2"
+            style={{ borderColor: COLORS.primary, color: COLORS.primary }}
+            onClick={() => setIsQuoteOpen(true)}
+          >
+            Get Free Quote
+          </Button>
         </div>
       </div>
     </section>

@@ -26,13 +26,12 @@ export default function SolarSolutionsPage() {
                 key={solution.id}
                 className="overflow-hidden hover:shadow-lg transition-shadow h-full flex flex-col"
               >
-                <div
-                  className="h-64 flex items-center justify-center text-6xl"
-                  style={{
-                    backgroundImage: `linear-gradient(135deg, ${COLORS.primary}80, ${COLORS.gold}80)`,
-                  }}
-                >
-                  ☀️
+                <div className="h-64 overflow-hidden">
+                  <img
+                    src={solution.image}
+                    alt={solution.title}
+                    className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                  />
                 </div>
                 <div className="p-8 flex-grow flex flex-col">
                   <h3 className="text-3xl font-bold mb-4" style={{ color: COLORS.primary }}>

@@ -1,7 +1,10 @@
+'use client';
+
 import { COLORS } from '@/lib/constants';
 import { Card, CardContent } from '@/components/ui/card';
 import Link from 'next/link';
 import { MapPin, Zap, Sun, ArrowRight, TrendingUp, Award, Users } from 'lucide-react';
+import { useQuote } from '@/lib/quote-context';
 
 // Portfolio data matching RecentInstallationsSection + more Lucknow projects
 const projects = [
@@ -127,6 +130,8 @@ const projects = [
 const categories = ['All', 'Residential', 'Commercial', 'Industrial', 'Housing Society', 'Institutional', 'Healthcare'];
 
 export default function PortfolioPage() {
+  const { setIsQuoteOpen } = useQuote();
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-amber-50 to-orange-50">
       {/* Hero Section */}
@@ -316,13 +321,13 @@ export default function PortfolioPage() {
             Get free site survey and consultation today!
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link 
-              href="/contact"
+            <button
+              onClick={() => setIsQuoteOpen(true)}
               className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white text-orange-600 font-bold rounded-xl hover:bg-gray-100 transition-colors"
             >
               Get Free Quote
               <ArrowRight className="w-5 h-5" />
-            </Link>
+            </button>
             <a 
               href="tel:+918933814898"
               className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-orange-500 text-white font-bold rounded-xl hover:bg-orange-600 transition-colors"

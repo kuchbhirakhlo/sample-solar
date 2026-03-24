@@ -6,10 +6,49 @@ import { Button } from '@/components/ui/button';
 import { Menu, X } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { NAV_ITEMS, SITE_CONFIG, COLORS } from '@/lib/constants';
+import { addContactSubmission } from '@/lib/firebase-db';
+import { useQuote } from '@/lib/quote-context';
 
 export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
-  const [isQuoteOpen, setIsQuoteOpen] = useState(false);
+  const { isQuoteOpen, setIsQuoteOpen } = useQuote();
+  const [quoteFormData, setQuoteFormData] = useState({
+    name: '',
+    phone: '',
+    city: '',
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleQuoteSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    try {
+      await addContactSubmission({
+        name: quoteFormData.name,
+        email: '', // No email field in this form
+        phone: quoteFormData.phone,
+        subject: 'Free Quote Request',
+        message: `City: ${quoteFormData.city}`,
+        date: new Date().toISOString().split('T')[0],
+        status: 'new',
+      });
+
+      setQuoteFormData({ name: '', phone: '', city: '' });
+      setIsQuoteOpen(false);
+      alert('Thank you! We will contact you soon.');
+    } catch (error) {
+      console.error('Error submitting quote:', error);
+      alert('There was an error submitting your request. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleQuoteChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setQuoteFormData((prev) => ({ ...prev, [name]: value }));
+  };
 
   useEffect(() => {
     // Check if popup was already shown in this session
@@ -127,17 +166,16 @@ export default function Navigation() {
             </div>
 
             {/* Form */}
-            <form className="p-6 space-y-4" onSubmit={(e) => {
-              e.preventDefault();
-              setIsQuoteOpen(false);
-              alert('Thank you! We will contact you soon.');
-            }}>
+            <form className="p-6 space-y-4" onSubmit={handleQuoteSubmit}>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Full Name
                 </label>
                 <input
                   type="text"
+                  name="name"
+                  value={quoteFormData.name}
+                  onChange={handleQuoteChange}
                   required
                   placeholder="Enter your name"
                   className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
@@ -150,6 +188,9 @@ export default function Navigation() {
                 </label>
                 <input
                   type="tel"
+                  name="phone"
+                  value={quoteFormData.phone}
+                  onChange={handleQuoteChange}
                   required
                   placeholder="Enter your mobile number"
                   className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
@@ -162,6 +203,9 @@ export default function Navigation() {
                 </label>
                 <input
                   type="text"
+                  name="city"
+                  value={quoteFormData.city}
+                  onChange={handleQuoteChange}
                   required
                   placeholder="Enter your city"
                   className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
@@ -171,10 +215,11 @@ export default function Navigation() {
               <Button
                 type="submit"
                 size="lg"
+                disabled={isSubmitting}
                 className="w-full text-white font-bold py-3 mt-2"
                 style={{ backgroundColor: COLORS.primary }}
               >
-                Submit
+                {isSubmitting ? 'Submitting...' : 'Submit'}
               </Button>
             </form>
           </div>
