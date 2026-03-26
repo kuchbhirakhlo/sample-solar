@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import HeroSection from '@/components/HeroSection';
+import SolutionsShowcase from '@/components/SolutionsShowcase';
 import RecentInstallationsSection from '@/components/RecentInstallationsSection';
 import GoogleRatingSection from '@/components/GoogleRatingSection';
 import SolarCompaniesSection from '@/components/SolarCompaniesSection';
@@ -17,6 +18,10 @@ export default function Home() {
   return (
     <>
       <HeroSection />
+
+      <div id="our-solutions">
+        <SolutionsShowcase />
+      </div>
 
       <div id="recent-installations">
         <RecentInstallationsSection />

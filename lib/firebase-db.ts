@@ -1,5 +1,71 @@
-import { collection, addDoc, getDocs, doc, updateDoc, deleteDoc, query, orderBy, where, Timestamp } from 'firebase/firestore';
+import { collection, addDoc, getDocs, doc, updateDoc, deleteDoc, query, orderBy, where, Timestamp, onSnapshot } from 'firebase/firestore';
 import { getDbService } from './firebase';
+
+// Reviews
+export interface Review {
+  id?: string;
+  name: string;
+  rating: number;
+  date: string;
+  text: string;
+  createdAt: Date;
+}
+
+export const addReview = async (review: Omit<Review, 'id' | 'createdAt'>) => {
+  const db = await getDbService();
+  if (!db) throw new Error('Database not available');
+
+  const docRef = await addDoc(collection(db, 'reviews'), {
+    ...review,
+    createdAt: Timestamp.now(),
+  });
+  return docRef.id;
+};
+
+export const getReviews = async (): Promise<Review[]> => {
+  const db = await getDbService();
+  if (!db) return [];
+
+  const q = query(collection(db, 'reviews'), orderBy('createdAt', 'desc'));
+  const querySnapshot = await getDocs(q);
+
+  return querySnapshot.docs.map(doc => ({
+    id: doc.id,
+    ...doc.data(),
+    createdAt: doc.data().createdAt?.toDate() || new Date(),
+  })) as Review[];
+};
+
+// Subscribe to real-time reviews updates
+export const subscribeToReviews = (callback: (reviews: Review[]) => void, limit: number = 10) => {
+  let unsubscribe: (() => void) | null = null;
+  
+  const setupSubscription = async () => {
+    const db = await getDbService();
+    if (!db) {
+      callback([]);
+      return;
+    }
+
+    const q = query(collection(db, 'reviews'), orderBy('createdAt', 'desc'));
+    unsubscribe = onSnapshot(q, (querySnapshot) => {
+      const reviews = querySnapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data(),
+        createdAt: doc.data().createdAt?.toDate() || new Date(),
+      })) as Review[];
+      callback(reviews.slice(0, limit));
+    });
+  };
+
+  setupSubscription();
+
+  return () => {
+    if (unsubscribe) {
+      unsubscribe();
+    }
+  };
+};
 
 // Contact Submissions
 export interface ContactSubmission {

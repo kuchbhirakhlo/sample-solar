@@ -2,63 +2,133 @@
 
 import { COLORS } from '@/lib/constants';
 import { Card } from '@/components/ui/card';
-import { Star, MapPin, ExternalLink, Sun, Zap, Battery, Home, Building2, Quote } from 'lucide-react';
+import { Star, MapPin, ExternalLink, Quote, ChevronLeft, ChevronRight } from 'lucide-react';
+import { useEffect, useState, useCallback } from 'react';
+
+interface GoogleReview {
+  author_name: string;
+  rating: number;
+  relative_time_description: string;
+  text: string;
+  profile_photo_url?: string;
+}
+
+interface ReviewsData {
+  rating: number;
+  totalReviews: number;
+  reviews: GoogleReview[];
+}
 
 export default function GoogleRatingSection() {
-  // Google Rating data - in production, this would be fetched from Google Places API
-  const ratingData = {
-    averageRating: 4.8,
-    totalReviews: 1250,
-    reviewsLink: 'https://www.google.com/maps/place/ORINTEK+SOLAR+ENERGY+SOLUTIONS/@26.9317642,80.9215264,17z/data=!3m1!4b1!4m6!3m5!1s0x399957dae1561b83:0xcf14d7c00d06150!8m2!3d26.9317642!4d80.9241013!16s%2Fg%2F11x6mt_02g?entry=tts&g_ep=EgoyMDI2MDIyNS4wIPu8ASoASAFQAw%3D%3D',
-  };
+  const [reviewsData, setReviewsData] = useState<ReviewsData | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
 
-  // Sample reviews - in production, these would be fetched from Google Places API
-  const reviews = [
+  // Google Maps reviews link
+  const reviewsLink = 'https://www.google.com/maps/place/ORINTEK+SOLAR+ENERGY+SOLUTIONS/@26.9317642,80.9215264,17z/data=!3m1!4b1!4m6!3m5!1s0x399957dae1561b83:0xcf14d7c00d06150!8m2!3d26.9317642!4d80.9241013!16s%2Fg%2F11x6mt_02g?entry=tts&g_ep=EgoyMDI2MDIyNS4wIPu8ASoASAFQAw%3D%3D';
+
+  useEffect(() => {
+    const fetchReviews = async () => {
+      try {
+        const response = await fetch('/api/google-reviews');
+        const data = await response.json();
+        
+        if (response.ok) {
+          setReviewsData(data);
+        } else {
+          setError(data.error || 'Failed to fetch reviews');
+          setReviewsData({
+            rating: 4.8,
+            totalReviews: 1250,
+            reviews: []
+          });
+        }
+      } catch (err) {
+        setError('Failed to fetch reviews');
+        setReviewsData({
+          rating: 4.8,
+          totalReviews: 1250,
+          reviews: []
+        });
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchReviews();
+  }, []);
+
+  // Fallback reviews - must be defined before displayReviews
+  const fallbackReviews = [
     {
       id: 1,
-      name: "Rahul Sharma",
+      author_name: "Rahul Sharma",
       rating: 5,
-      date: "2 weeks ago",
-      text: "Excellent solar installation service! The team was professional and the quality of work exceeded my expectations.",
+      relative_time_description: "2 weeks ago",
+      text: "Excellent solar installation service! The team was professional and the quality of work exceeded my expectations. Very satisfied with the results.",
     },
     {
       id: 2,
-      name: "Priya Patel",
+      author_name: "Priya Patel",
       rating: 5,
-      date: "1 month ago",
-      text: "Very happy with the solar panel installation. The staff explained everything clearly.",
+      relative_time_description: "1 month ago",
+      text: "Very happy with the solar panel installation. The staff explained everything clearly and the pricing was transparent. Highly recommend!",
     },
     {
       id: 3,
-      name: "Amit Kumar",
+      author_name: "Amit Kumar",
       rating: 4,
-      date: "1 month ago",
-      text: "Good experience overall. The installation was smooth and the team was knowledgeable.",
+      relative_time_description: "1 month ago",
+      text: "Good experience overall. The installation was smooth and the team was knowledgeable. Would recommend to others looking for solar solutions.",
+    },
+    {
+      id: 4,
+      author_name: "Sanjay Gupta",
+      rating: 5,
+      relative_time_description: "3 weeks ago",
+      text: "Best solar company in Lucknow! They guided me through the entire process and my electricity bill has reduced significantly. Great service!",
+    },
+    {
+      id: 5,
+      author_name: "Ravi Shankar",
+      rating: 5,
+      relative_time_description: "1 week ago",
+      text: "Professional team, quality products, and excellent after-sales service. My 5kW system is working perfectly. Thank you Orintek!",
     },
   ];
 
-  const solutions = [
-    {
-      icon: Home,
-      title: 'Residential Solar',
-      description: 'Transform your home with clean solar energy and save up to 70% on electricity bills',
-    },
-    {
-      icon: Building2,
-      title: 'Commercial Solar',
-      description: 'Power your business with sustainable solar solutions and reduce operational costs',
-    },
-    {
-      icon: Zap,
-      title: 'Solar EPC Services',
-      description: 'End-to-end engineering, procurement, and construction for solar projects',
-    },
-    {
-      icon: Battery,
-      title: 'Solar Battery Storage',
-      description: 'Store excess solar energy for uninterrupted power supply 24/7',
-    },
-  ];
+  // Display reviews - must be defined after fallbackReviews and before useEffect
+  const displayReviews = reviewsData?.reviews && reviewsData.reviews.length > 0 
+    ? reviewsData.reviews 
+    : fallbackReviews;
+
+  // Auto-scroll effect
+  useEffect(() => {
+    if (!displayReviews || displayReviews.length === 0 || !isAutoPlaying) return;
+
+    const interval = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % displayReviews.length);
+    }, 4000); // Change review every 4 seconds
+
+    return () => clearInterval(interval);
+  }, [displayReviews, isAutoPlaying]);
+
+  const goToPrevious = useCallback(() => {
+    setIsAutoPlaying(false);
+    setCurrentIndex((prev) => (prev - 1 + displayReviews.length) % displayReviews.length);
+  }, [displayReviews.length]);
+
+  const goToNext = useCallback(() => {
+    setIsAutoPlaying(false);
+    setCurrentIndex((prev) => (prev + 1) % displayReviews.length);
+  }, [displayReviews.length]);
+
+  const goToSlide = useCallback((index: number) => {
+    setIsAutoPlaying(false);
+    setCurrentIndex(index);
+  }, []);
 
   const renderStars = (rating: number) => {
     return (
@@ -77,85 +147,132 @@ export default function GoogleRatingSection() {
     );
   };
 
+  const currentRating = reviewsData?.rating || 4.8;
+  const totalReviews = reviewsData?.totalReviews || 1250;
+
   return (
     <section className="py-16" style={{ backgroundColor: COLORS.lightBlue }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Our Solar Solutions Section */}
+        {/* Section Header */}
         <div className="text-center mb-12">
-          <h2 className="text-4xl font-bold mb-4" style={{ color: COLORS.primary }}>
-            Our Solar Solutions
+          <h2 className="text-3xl md:text-4xl font-bold mb-4" style={{ color: COLORS.primary }}>
+            Customer Reviews
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            We provide comprehensive solar energy solutions tailored to meet your specific needs. 
-            From residential rooftops to large-scale commercial installations, our expert team 
-            ensures maximum efficiency and savings for every customer.
+          <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+            See what our customers say about their experience with Orintek Solar Energy Solutions
           </p>
         </div>
 
-        {/* Solutions Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-          {solutions.map((solution, index) => (
-            <Card
-              key={index}
-              className="p-6 hover:shadow-xl transition-shadow text-center group"
-            >
-              <div
-                className="w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform"
-                style={{ backgroundColor: COLORS.lightBlue }}
-              >
-                <solution.icon className="w-8 h-8" style={{ color: COLORS.primary }} />
-              </div>
-              <h3
-                className="font-bold text-lg mb-2"
-                style={{ color: COLORS.primary }}
-              >
-                {solution.title}
-              </h3>
-              <p className="text-sm text-gray-600">
-                {solution.description}
-              </p>
-            </Card>
-          ))}
-        </div>
-
-        {/* Reviews and Rating Section - Two Column Layout */}
+        {/* Auto-Scrolling Reviews Section */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Left Column - Reviews */}
+          {/* Left Column - Auto-Scrolling Review Carousel */}
           <div className="lg:col-span-2">
-            <h3 className="text-2xl font-bold mb-6" style={{ color: COLORS.primary }}>
-              What Our Customers Say
-            </h3>
-            <div className="space-y-4">
-              {reviews.map((review) => (
-                <Card key={review.id} className="p-5 hover:shadow-lg transition-shadow">
-                  {/* Quote Icon */}
-                  <div className="mb-3">
-                    <Quote className="w-5 h-5" style={{ color: COLORS.primary }} />
+            {/* Carousel Container */}
+            <div 
+              className="relative bg-white rounded-2xl shadow-lg overflow-hidden"
+              onMouseEnter={() => setIsAutoPlaying(false)}
+              onMouseLeave={() => setIsAutoPlaying(true)}
+            >
+              {/* Review Cards Container */}
+              <div className="relative h-[320px] md:h-[280px]">
+                {loading ? (
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="flex flex-col items-center gap-4">
+                      <div className="w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+                      <p className="text-gray-500">Loading reviews...</p>
+                    </div>
                   </div>
-                  
-                  {/* Review Text */}
-                  <p className="text-gray-600 text-sm mb-4">
-                    "{review.text}"
-                  </p>
-                  
-                  {/* Rating */}
-                  <div className="mb-3">
-                    {renderStars(review.rating)}
-                  </div>
-                  
-                  {/* Name and Date */}
-                  <div className="border-t pt-3">
-                    <p className="font-semibold text-gray-800">{review.name}</p>
-                    <p className="text-xs text-gray-500">{review.date}</p>
-                  </div>
-                </Card>
-              ))}
+                ) : (
+                  displayReviews.map((review, index) => (
+                    <div
+                      key={index}
+                      className={`absolute inset-0 transition-all duration-500 ease-in-out ${
+                        index === currentIndex 
+                          ? 'opacity-100 translate-x-0' 
+                          : 'opacity-0 translate-x-full'
+                      }`}
+                      style={{
+                        transform: index === currentIndex ? 'translateX(0)' : 'translateX(100%)',
+                      }}
+                    >
+                      <div className="h-full p-6 md:p-8 flex flex-col">
+                        {/* Quote Icon & Rating */}
+                        <div className="flex justify-between items-start mb-4">
+                          <Quote className="w-8 h-8" style={{ color: COLORS.primary, opacity: 0.3 }} />
+                          <div className="flex items-center gap-2 bg-yellow-50 px-3 py-1 rounded-full">
+                            <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                            <span className="font-semibold text-yellow-700">{review.rating}</span>
+                          </div>
+                        </div>
+                        
+                        {/* Review Text */}
+                        <p className="text-gray-700 text-lg mb-6 flex-grow italic">
+                          "{review.text}"
+                        </p>
+                        
+                        {/* Author Info */}
+                        <div className="flex items-center gap-3 border-t pt-4">
+                          <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ backgroundColor: COLORS.primary }}>
+                            <span className="text-white font-semibold">
+                              {review.author_name.charAt(0).toUpperCase()}
+                            </span>
+                          </div>
+                          <div>
+                            <p className="font-semibold text-gray-800">{review.author_name}</p>
+                            <p className="text-xs text-gray-500">{review.relative_time_description}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))
+                )}
+              </div>
+
+              {/* Navigation Arrows */}
+              <button
+                onClick={goToPrevious}
+                className="absolute left-2 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white shadow-lg flex items-center justify-center hover:bg-gray-50 transition-colors z-10"
+                aria-label="Previous review"
+              >
+                <ChevronLeft className="w-5 h-5 text-gray-600" />
+              </button>
+              <button
+                onClick={goToNext}
+                className="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white shadow-lg flex items-center justify-center hover:bg-gray-50 transition-colors z-10"
+                aria-label="Next review"
+              >
+                <ChevronRight className="w-5 h-5 text-gray-600" />
+              </button>
+
+              {/* Dots Indicator */}
+              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
+                {displayReviews.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => goToSlide(index)}
+                    className={`w-2 h-2 rounded-full transition-all ${
+                      index === currentIndex 
+                        ? 'w-8 bg-blue-600' 
+                        : 'bg-gray-300 hover:bg-gray-400'
+                    }`}
+                    aria-label={`Go to review ${index + 1}`}
+                  />
+                ))}
+              </div>
+
+              {/* Auto-play indicator */}
+              <div className="absolute top-4 right-4">
+                <div className="flex items-center gap-2 text-xs text-gray-500 bg-white/80 px-2 py-1 rounded-full">
+                  <div className={`w-2 h-2 rounded-full ${isAutoPlaying ? 'bg-green-500 animate-pulse' : 'bg-gray-400'}`}></div>
+                  <span>{isAutoPlaying ? 'Auto' : 'Paused'}</span>
+                </div>
+              </div>
             </div>
             
             {/* View All Reviews Button */}
-            <div className="mt-6 text-center lg:text-left">
+            <div className="mt-6 text-center">
               <a
-                href={ratingData.reviewsLink}
+                href={reviewsLink}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 px-6 py-3 rounded-lg font-semibold transition-all hover:opacity-90"
@@ -169,11 +286,11 @@ export default function GoogleRatingSection() {
           
           {/* Right Column - Rating Card */}
           <div className="lg:col-span-1">
-            <Card className="p-8 text-center hover:shadow-xl transition-shadow sticky top-24">
+            <Card className="p-4 text-center hover:shadow-xl transition-all duration-300 sticky top-24 border-0">
               {/* Google Logo and Rating */}
-              <div className="flex items-center justify-center gap-3 mb-4">
+              <div className="flex items-center justify-center gap-3 mb-6">
                 <div className="flex items-center gap-2">
-                  <svg className="w-8 h-8" viewBox="0 0 24 24">
+                  <svg className="w-10 h-10" viewBox="0 0 24 24">
                     <path
                       fill="#4285F4"
                       d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
@@ -197,25 +314,36 @@ export default function GoogleRatingSection() {
 
               {/* Star Rating */}
               <div className="flex justify-center mb-4">
-                {renderStars(ratingData.averageRating)}
+                {renderStars(Math.round(currentRating))}
               </div>
 
               {/* Rating Number */}
-              <div className="mb-2">
-                <span className="text-5xl font-bold" style={{ color: COLORS.primary }}>
-                  {ratingData.averageRating}
+              <div className="mb-4">
+                <span className="text-6xl font-bold" style={{ color: COLORS.primary }}>
+                  {currentRating.toFixed(1)}
                 </span>
                 <span className="text-2xl text-gray-500">/5</span>
               </div>
 
               {/* Total Reviews */}
               <p className="text-gray-600 mb-6">
-                Based on <span className="font-bold">{ratingData.totalReviews.toLocaleString()}+</span> reviews
+                Based on <span className="font-bold">{totalReviews.toLocaleString()}+</span> reviews
               </p>
+
+              {/* Progress Bar */}
+              <div className="w-full bg-gray-200 rounded-full h-2 mb-6">
+                <div 
+                  className="h-2 rounded-full transition-all duration-1000"
+                  style={{ 
+                    width: `${(currentRating / 5) * 100}%`,
+                    backgroundColor: COLORS.primary 
+                  }}
+                ></div>
+              </div>
 
               {/* Check Rating Button */}
               <a
-                href={ratingData.reviewsLink}
+                href={reviewsLink}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 px-6 py-3 rounded-lg font-semibold transition-all hover:opacity-90"
