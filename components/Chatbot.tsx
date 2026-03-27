@@ -2,7 +2,9 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { COLORS } from '@/lib/constants';
-import { MessageCircle, X, Send, Bot, User } from 'lucide-react';
+import { X, Send, User } from 'lucide-react';
+import Lottie from 'lottie-react';
+import chatbotAnimation from '@/public/images/Live chatbot.json';
 
 interface Message {
   id: number;
@@ -138,11 +140,14 @@ export default function Chatbot() {
       {/* Chat Toggle Button */}
       <button
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-6 right-6 w-14 h-14 rounded-full shadow-lg flex items-center justify-center transition-transform hover:scale-110 z-50"
-        style={{ backgroundColor: COLORS.primary, color: 'white' }}
+        className="fixed bottom-6 right-6 w-23 h-23  rounded-full shadow-lg flex items-center justify-center transition-transform hover:scale-110 z-50 overflow-hidden"
         aria-label="Open chat"
       >
-        <MessageCircle className="w-7 h-7" />
+        <Lottie 
+          animationData={chatbotAnimation} 
+          className="w-full h-full"
+          loop={true}
+        />
       </button>
 
       {/* Chat Window */}
@@ -157,8 +162,12 @@ export default function Chatbot() {
             style={{ backgroundColor: COLORS.primary }}
           >
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
-                <Bot className="w-5 h-5 text-white" />
+              <div className="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center overflow-hidden">
+                <Lottie 
+                  animationData={chatbotAnimation} 
+                  className="w-full h-full"
+                  loop={true}
+                />
               </div>
               <div>
                 <h3 className="font-bold text-white">Solar Assistant</h3>
@@ -193,7 +202,11 @@ export default function Chatbot() {
                 >
                   <div className="flex items-start gap-2">
                     {!message.isUser && (
-                      <Bot className="w-4 h-4 mt-0.5 flex-shrink-0" style={{ color: COLORS.primary }} />
+                      <Lottie 
+                      animationData={chatbotAnimation} 
+                      className="w-5 h-5 flex-shrink-0"
+                      loop={true}
+                    />
                     )}
                     {message.isUser && (
                       <User className="w-4 h-4 mt-0.5 flex-shrink-0 text-white" />

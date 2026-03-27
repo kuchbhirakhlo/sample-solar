@@ -14,7 +14,7 @@ export default function SolutionDetailPage({
 }) {
   const { setIsQuoteOpen } = useQuote();
   const category = params.category;
-  const solution = SOLUTIONS.find((s) => s.id === unwrappedParams.category);
+  const solution = SOLUTIONS.find((s) => s.id === category);
 
   if (!solution) {
     notFound();
@@ -56,7 +56,7 @@ export default function SolutionDetailPage({
     },
   };
 
-  const content = detailContent[unwrappedParams.category];
+  const content = detailContent[category];
 
   return (
     <div>

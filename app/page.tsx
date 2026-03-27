@@ -1,16 +1,22 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import HeroSection from '@/components/HeroSection';
 import SolutionsShowcase from '@/components/SolutionsShowcase';
 import RecentInstallationsSection from '@/components/RecentInstallationsSection';
 import GoogleRatingSection from '@/components/GoogleRatingSection';
 import SolarCompaniesSection from '@/components/SolarCompaniesSection';
-import Chatbot from '@/components/Chatbot';
+import dynamic from 'next/dynamic';
 import { useQuote } from '@/lib/quote-context';
 import { COLORS } from '@/lib/constants';
-import { Sun, Zap, Award, Users, Phone, Mail, MapPin } from 'lucide-react';
+
+// Lazy load Chatbot to improve initial page load
+const Chatbot = dynamic(() => import('@/components/Chatbot'), {
+  ssr: false,
+  loading: () => null,
+});
 
 export default function Home() {
   const { setIsQuoteOpen } = useQuote();
@@ -81,11 +87,14 @@ export default function Home() {
                   maxWidth: '500px'
                 }}
               >
-                <img
+                <Image
                   src="/orintek-front.webp"
                   alt="Solar Rooftop Installation"
+                  width={500}
+                  height={400}
                   className="w-full h-auto object-cover"
                   style={{ maxHeight: '400px' }}
+                  priority
                 />
               </div>
             </div>

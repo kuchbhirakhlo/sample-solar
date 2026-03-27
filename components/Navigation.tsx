@@ -52,12 +52,13 @@ export default function Navigation() {
 
   useEffect(() => {
     // Check if popup was already shown in this session
+    // Delay the popup to not block initial page load
     const popupShown = sessionStorage.getItem('quotePopupShown');
     if (!popupShown) {
       const timer = setTimeout(() => {
         setIsQuoteOpen(true);
         sessionStorage.setItem('quotePopupShown', 'true');
-      }, 5000);
+      }, 15000); // Changed from 5s to 15s to not block initial interaction
       return () => clearTimeout(timer);
     }
   }, []);
@@ -75,6 +76,8 @@ export default function Navigation() {
                 width={120}
                 height={40}
                 className="h-20 w-auto object-contain"
+                priority
+                loading="eager"
               />
             </Link>
 

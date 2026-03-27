@@ -7,38 +7,26 @@ import Link from 'next/link';
 export default function HeroSection() {
   return (
     <section className="relative w-full h-screen flex items-center justify-center overflow-hidden">
-      {/* Video background removed as requested. */}
-      {(
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          className="absolute inset-0 object-cover"
-          style={{
-            width: '100%',
-            height: '100%',
-            filter: 'brightness(1) contrast(1.05)',
-            WebkitFilter: 'brightness(1) contrast(1.05)',
-            WebkitBackfaceVisibility: 'hidden',
-            backfaceVisibility: 'hidden',
-            transform: 'translate3d(0, 0, 0) scale(1)',
-            WebkitTransform: 'translate3d(0, 0, 0) scale(1)',
-            WebkitPerspective: 1000,
-            willChange: 'transform',
-            imageRendering: 'auto',
-            WebkitFontSmoothing: 'antialiased',
-            WebkitUserSelect: 'none',
-            userSelect: 'none',
-            WebkitTouchCallout: 'none',
-            zIndex: 1,
-            contain: 'strict',
-          } as React.CSSProperties}
-        >
-          <source src="/sunrise-gif2.mp4" type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
-      )}
+      {/* Video background - optimized with lazy loading and poster */}
+      <video
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="none"
+        poster="/orintek-front.webp"
+        className="absolute inset-0 object-cover"
+        style={{
+          width: '100%',
+          height: '100%',
+          filter: 'brightness(1) contrast(1.05)',
+          WebkitFilter: 'brightness(1) contrast(1.05)',
+          willChange: 'transform',
+        } as React.CSSProperties}
+      >
+        <source src="/sunrise-gif2.mp4" type="video/mp4" />
+        <img src="/orintek-front.webp" alt="Solar" className="absolute inset-0 w-full h-full object-cover" />
+      </video>
       <div className="absolute inset-0 bg-gradient-to-b from-blue-950/40 to-blue-900/30">
       </div>
 

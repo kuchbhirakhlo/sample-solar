@@ -160,7 +160,7 @@ export default function PortfolioDetailPage({
     },
   };
 
-  const project = projectData[unwrappedParams.slug];
+  const project = projectData[slug];
 
   if (!project) {
     return (

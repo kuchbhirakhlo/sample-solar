@@ -132,7 +132,10 @@ export default function SolarCompaniesSection() {
                     <img
                       src={brand.logo}
                       alt={brand.name + " logo"}
-                      className="max-w-full max-h-full"
+                      loading="lazy"
+                      className="max-w-full max-h-full object-contain"
+                      width={80}
+                      height={80}
                     />
                   </div>
                   <h3

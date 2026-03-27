@@ -75,7 +75,10 @@ export default function RecentInstallationsSection() {
                 <img 
                   src={project.image} 
                   alt={project.title}
-                  className="w-full h-full  hover:scale-105 transition-transform duration-500"
+                  loading="lazy"
+                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                  width={400}
+                  height={200}
                 />
                 {/* Category Badge */}
                 <span 

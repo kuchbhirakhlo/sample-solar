@@ -16,7 +16,7 @@ export default function SolutionsShowcase() {
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {SOLUTIONS.map((solution) => (
+          {SOLUTIONS.map((solution, solutionIndex) => (
             <Card
               key={solution.id}
               className="overflow-hidden hover:shadow-lg transition-shadow h-full"
@@ -28,7 +28,7 @@ export default function SolutionsShowcase() {
                   fill
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   className="object-cover hover:scale-105 transition-transform duration-500"
-                  priority={false}
+                  priority={solutionIndex < 2}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
               </div>

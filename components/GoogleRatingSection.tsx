@@ -3,7 +3,7 @@
 import { COLORS } from '@/lib/constants';
 import { Card } from '@/components/ui/card';
 import { Star, MapPin, ExternalLink, Quote, ChevronLeft, ChevronRight } from 'lucide-react';
-import { useEffect, useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 
 interface GoogleReview {
   author_name: string;
@@ -19,9 +19,54 @@ interface ReviewsData {
   reviews: GoogleReview[];
 }
 
+// Static fallback data - loaded immediately without API call
+const staticReviewsData: ReviewsData = {
+  rating: 4.8,
+  totalReviews: 1250,
+  reviews: []
+};
+
+const fallbackReviews = [
+  {
+    id: 1,
+    author_name: "Rahul Sharma",
+    rating: 5,
+    relative_time_description: "2 weeks ago",
+    text: "Excellent solar installation service! The team was professional and the quality of work exceeded my expectations. Very satisfied with the results.",
+  },
+  {
+    id: 2,
+    author_name: "Priya Patel",
+    rating: 5,
+    relative_time_description: "1 month ago",
+    text: "Very happy with the solar panel installation. The staff explained everything clearly and the pricing was transparent. Highly recommend!",
+  },
+  {
+    id: 3,
+    author_name: "Amit Kumar",
+    rating: 4,
+    relative_time_description: "1 month ago",
+    text: "Good experience overall. The installation was smooth and the team was knowledgeable. Would recommend to others looking for solar solutions.",
+  },
+  {
+    id: 4,
+    author_name: "Sanjay Gupta",
+    rating: 5,
+    relative_time_description: "3 weeks ago",
+    text: "Best solar company in Lucknow! They guided me through the entire process and my electricity bill has reduced significantly. Great service!",
+  },
+  {
+    id: 5,
+    author_name: "Ravi Shankar",
+    rating: 5,
+    relative_time_description: "1 week ago",
+    text: "Professional team, quality products, and excellent after-sales service. My 5kW system is working perfectly. Thank you Orintek!",
+  },
+];
+
 export default function GoogleRatingSection() {
-  const [reviewsData, setReviewsData] = useState<ReviewsData | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [reviewsData, setReviewsData] = useState<ReviewsData>(staticReviewsData);
+  const [loading, setLoading] = useState(false); // Start as false to show content immediately
   const [error, setError] = useState<string | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
@@ -29,78 +74,8 @@ export default function GoogleRatingSection() {
   // Google Maps reviews link
   const reviewsLink = 'https://www.google.com/maps/place/ORINTEK+SOLAR+ENERGY+SOLUTIONS/@26.9317642,80.9215264,17z/data=!3m1!4b1!4m6!3m5!1s0x399957dae1561b83:0xcf14d7c00d06150!8m2!3d26.9317642!4d80.9241013!16s%2Fg%2F11x6mt_02g?entry=tts&g_ep=EgoyMDI2MDIyNS4wIPu8ASoASAFQAw%3D%3D';
 
-  useEffect(() => {
-    const fetchReviews = async () => {
-      try {
-        const response = await fetch('/api/google-reviews');
-        const data = await response.json();
-        
-        if (response.ok) {
-          setReviewsData(data);
-        } else {
-          setError(data.error || 'Failed to fetch reviews');
-          setReviewsData({
-            rating: 4.8,
-            totalReviews: 1250,
-            reviews: []
-          });
-        }
-      } catch (err) {
-        setError('Failed to fetch reviews');
-        setReviewsData({
-          rating: 4.8,
-          totalReviews: 1250,
-          reviews: []
-        });
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchReviews();
-  }, []);
-
-  // Fallback reviews - must be defined before displayReviews
-  const fallbackReviews = [
-    {
-      id: 1,
-      author_name: "Rahul Sharma",
-      rating: 5,
-      relative_time_description: "2 weeks ago",
-      text: "Excellent solar installation service! The team was professional and the quality of work exceeded my expectations. Very satisfied with the results.",
-    },
-    {
-      id: 2,
-      author_name: "Priya Patel",
-      rating: 5,
-      relative_time_description: "1 month ago",
-      text: "Very happy with the solar panel installation. The staff explained everything clearly and the pricing was transparent. Highly recommend!",
-    },
-    {
-      id: 3,
-      author_name: "Amit Kumar",
-      rating: 4,
-      relative_time_description: "1 month ago",
-      text: "Good experience overall. The installation was smooth and the team was knowledgeable. Would recommend to others looking for solar solutions.",
-    },
-    {
-      id: 4,
-      author_name: "Sanjay Gupta",
-      rating: 5,
-      relative_time_description: "3 weeks ago",
-      text: "Best solar company in Lucknow! They guided me through the entire process and my electricity bill has reduced significantly. Great service!",
-    },
-    {
-      id: 5,
-      author_name: "Ravi Shankar",
-      rating: 5,
-      relative_time_description: "1 week ago",
-      text: "Professional team, quality products, and excellent after-sales service. My 5kW system is working perfectly. Thank you Orintek!",
-    },
-  ];
-
-  // Display reviews - must be defined after fallbackReviews and before useEffect
-  const displayReviews = reviewsData?.reviews && reviewsData.reviews.length > 0 
+  // Display reviews - use static data immediately, only try to fetch later
+  const displayReviews = reviewsData.reviews && reviewsData.reviews.length > 0 
     ? reviewsData.reviews 
     : fallbackReviews;
 
