@@ -16,7 +16,7 @@ const projects = [
     location: 'Gomti Nagar, Lucknow',
     system: 'On-Grid System - 5 kW',
     savings: '₹4,500/month',
-    image: '/images/solar-homes.jpg'
+    image: '/home-solar.webp'
   },
   {
     category: 'Commercial',
@@ -26,7 +26,7 @@ const projects = [
     location: 'Hazratganj, Lucknow',
     system: 'On-Grid System - 10 kW',
     savings: '₹9,000/month',
-    image: '/images/solar-commercial.jpg'
+    image: '/commercialsolar.webp'
   },
   {
     category: 'Industrial',
@@ -36,7 +36,7 @@ const projects = [
     location: 'Alambagh, Lucknow',
     system: 'On-Grid System - 50 kW',
     savings: '₹45,000/month',
-    image: '/images/solar-housing-society.jpg'
+    image: '/images/solar-housing-society.webp'
   }
 ];
 
@@ -75,7 +75,7 @@ export default function RecentInstallationsSection() {
                 <img 
                   src={project.image} 
                   alt={project.title}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full  hover:scale-105 transition-transform duration-500"
                 />
                 {/* Category Badge */}
                 <span 

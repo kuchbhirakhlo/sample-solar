@@ -82,7 +82,7 @@ export default function Home() {
                 }}
               >
                 <img
-                  src="/images/solar-hero.jpg"
+                  src="/orintek-front.webp"
                   alt="Solar Rooftop Installation"
                   className="w-full h-auto object-cover"
                   style={{ maxHeight: '400px' }}

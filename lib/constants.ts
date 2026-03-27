@@ -14,7 +14,7 @@ export const SITE_CONFIG = {
 export const NAV_ITEMS = [
   { label: 'Our Offerings', href: '/portfolio' },
   { label: 'About Us', href: '/about' },
-  { label: 'Brands', href: '#brands' },
+  { label: 'Brands', href: '/brands' },
   { label: 'Solar Solutions', href: '/solar-solutions' },
   { label: 'Contact', href: '/contact' },
   { label: 'Careers', href: '/career' },
@@ -34,20 +34,23 @@ export const SOLUTIONS = [
   {
     id: 'homes',
     title: 'Homes',
-    description: 'Residential solar solutions for your home',
-    image: '/solarimage/solarimage2026-03-14 at 11.28.33 (1).jpeg',
+    description: 'Transform your home with clean, renewable solar energy and reduce your electricity bills significantly.',
+    features: ['Save up to 70% on electricity bills', '25-year performance warranty', 'Smart monitoring app', 'Net metering support', 'Free maintenance for 5 years'],
+    image: '/images/residentialinstallation.webp',
   },
   {
     id: 'housing-society',
     title: 'Housing Society',
-    description: 'Community solar solutions for societies',
-    image: '/solarimage/solarimage2026-03-14 at 11.30.46 (2).jpeg',
+    description: 'Power your entire community with shared solar infrastructure and collective savings.',
+    features: ['Common area lighting solutions', 'Individual metering for flats', 'Government subsidy benefits', 'Professional installation team', 'Dedicated project manager'],
+    image: '/images/solar-housing-society.webp',
   },
   {
     id: 'commercial',
     title: 'Commercial',
-    description: 'Large-scale solar solutions for businesses',
-    image: '/solarimage/solarimage2026-03-14 at 11.28.37 (1).jpeg',
+    description: 'Scale your business operations with cost-effective solar solutions for commercial spaces.',
+    features: ['Rooftop & ground mount options', 'Tax benefits under Section 80AD', 'Customized capacity planning', 'Commercial-grade inverters', '24/7 technical support'],
+    image: '/images/solar-commercial.jpg',
   },
 ];
 

@@ -2,14 +2,7 @@
 
 import { Card } from '@/components/ui/card';
 import Image from 'next/image';
-import Link from 'next/link';
 import { COLORS, SOLUTIONS } from '@/lib/constants';
-
-const solutionImages: Record<string, string> = {
-  'homes': '/home-solar.jpg',
-  'housing-society': '/solar-power-housing-society.jpg',
-  'commercial': '/commercial-solar.jpg',
-};
 
 export default function SolutionsShowcase() {
   return (
@@ -24,33 +17,43 @@ export default function SolutionsShowcase() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {SOLUTIONS.map((solution) => (
-            <Link key={solution.id} href={`/solar-solutions/${solution.id}`}>
-              <Card
-                className="overflow-hidden hover:shadow-lg transition-shadow h-full cursor-pointer group"
-              >
-                <div className="h-64 relative bg-gray-200 overflow-hidden">
-                  <Image
-                    src={solutionImages[solution.id] || '/images/solar-homes.jpg'}
-                    alt={solution.title}
-                    fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                  <div className="absolute inset-0 bg-black/20"></div>
-                </div>
-                <div className="p-6">
-                  <h3 className="text-2xl font-bold mb-2" style={{ color: COLORS.primary }}>
-                    {solution.title}
-                  </h3>
-                  <p className="text-gray-600 mb-4">{solution.description}</p>
-                  <span 
-                    className="inline-flex items-center text-sm font-semibold"
-                    style={{ color: COLORS.primary }}
-                  >
-                    Learn More →
-                  </span>
-                </div>
-              </Card>
-            </Link>
+            <Card
+              key={solution.id}
+              className="overflow-hidden hover:shadow-lg transition-shadow h-full"
+            >
+              <div className="h-56 relative bg-gray-200 overflow-hidden">
+                <Image
+                  src={solution.image}
+                  alt={solution.title}
+                  fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  className="object-cover hover:scale-105 transition-transform duration-500"
+                  priority={false}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+              </div>
+              <div className="p-6">
+                <h3 className="text-2xl font-bold mb-3" style={{ color: COLORS.primary }}>
+                  {solution.title}
+                </h3>
+                <p className="text-gray-600 mb-4 text-sm leading-relaxed">
+                  {solution.description}
+                </p>
+                <ul className="space-y-2 mb-4">
+                  {solution.features?.slice(0, 3).map((feature, index) => (
+                    <li key={index} className="flex items-start gap-2 text-sm text-gray-600">
+                      <span className="text-green-500 mt-0.5">✓</span>
+                      <span>{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+                {solution.features && solution.features.length > 3 && (
+                  <p className="text-xs text-gray-500">
+                    +{solution.features.length - 3} more benefits
+                  </p>
+                )}
+              </div>
+            </Card>
           ))}
         </div>
       </div>
