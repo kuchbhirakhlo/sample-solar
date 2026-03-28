@@ -7,18 +7,18 @@ const residentialRatings = ['3KW', '5KW', '7KW', '10KW', '12KW'];
 const commercialRatings = ['5KW', '10KW', '15KW', '20KW', '37KW', '50KW', '100KW', '160KW', '200KW'];
 
 const ratingImageMap: Record<string, string> = {
-  '3KW': '/images/solar-homes.jpg',
-  '5KW': '/images/solar-homes.jpg',
-  '7KW': '/images/solar-housing-society.jpg',
-  '10KW': '/images/solar-housing-society.jpg',
-  '12KW': '/images/solar-housing-society.jpg',
-  '15KW': '/images/solar-commercial.jpg',
-  '20KW': '/images/solar-commercial.jpg',
-  '37KW': '/images/solar-commercial.jpg',
-  '50KW': '/images/solar-commercial.jpg',
-  '100KW': '/images/solar-commercial.jpg',
-  '160KW': '/images/solar-commercial.jpg',
-  '200KW': '/images/solar-commercial.jpg',
+  '3KW': '/solaricon.webp',
+  '5KW': '/solaricon.webp',
+  '7KW': '/solaricon.webp',
+  '10KW': '/solaricon.webp',
+  '12KW': '/solaricon.webp',
+  '15KW': '/solaricon.webp',
+  '20KW': '/solaricon.webp',
+  '37KW': '/solaricon.webp',
+  '50KW': '/solaricon.webp',
+  '100KW': '/solaricon.webp',
+  '160KW': '/solaricon.webp',
+  '200KW': '/solaricon.webp',
 };
 
 export default function PowerRatingCards() {

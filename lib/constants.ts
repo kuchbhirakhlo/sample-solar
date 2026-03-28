@@ -1,7 +1,9 @@
+import { SEO_PACKAGE } from './seo-package';
+
 export const SITE_CONFIG = {
   name: 'Orintek Solar',
-  description: 'Transform your energy needs with solar power',
-  url: 'https://Orintek Solar.in',
+  description: SEO_PACKAGE.metaDescriptions.home,
+  url: 'https://www.orinteksolarenergy.com/',
   ogImage: '/og-image.jpg',
   links: {
     twitter: 'https://twitter.com',
@@ -9,6 +11,7 @@ export const SITE_CONFIG = {
     facebook: 'https://facebook.com',
     linkedin: 'https://linkedin.com',
   },
+  seo: SEO_PACKAGE,
 };
 
 export const NAV_ITEMS = [
