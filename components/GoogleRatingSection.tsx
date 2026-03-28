@@ -21,8 +21,8 @@ interface ReviewsData {
 
 // Static fallback data - loaded immediately without API call
 const staticReviewsData: ReviewsData = {
-  rating: 4.8,
-  totalReviews: 1250,
+  rating: 5.0,
+  totalReviews: 12,
   reviews: []
 };
 
@@ -81,6 +81,32 @@ export default function GoogleRatingSection() {
 
   // Auto-scroll effect
   useEffect(() => {
+    // Fetch real Google reviews
+    const fetchReviews = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch('/api/google-reviews');
+        if (response.ok) {
+          const data = await response.json();
+          if (data.rating && data.reviews) {
+            setReviewsData({
+              rating: data.rating,
+              totalReviews: data.totalReviews,
+              reviews: data.reviews
+            });
+          }
+        }
+      } catch (err) {
+        console.error('Failed to fetch reviews:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchReviews();
+  }, []);
+
+  useEffect(() => {
     if (!displayReviews || displayReviews.length === 0 || !isAutoPlaying) return;
 
     const interval = setInterval(() => {
@@ -122,8 +148,8 @@ export default function GoogleRatingSection() {
     );
   };
 
-  const currentRating = reviewsData?.rating || 4.8;
-  const totalReviews = reviewsData?.totalReviews || 1250;
+  const currentRating = reviewsData?.rating || 5.0;
+  const totalReviews = reviewsData?.totalReviews || 12;
 
   return (
     <section className="py-16" style={{ backgroundColor: COLORS.lightBlue }}>
@@ -149,7 +175,7 @@ export default function GoogleRatingSection() {
               onMouseLeave={() => setIsAutoPlaying(true)}
             >
               {/* Review Cards Container */}
-              <div className="relative h-[320px] md:h-[280px]">
+              <div className="relative h-[320px] md:h-[320px]">
                 {loading ? (
                   <div className="absolute inset-0 flex items-center justify-center">
                     <div className="flex flex-col items-center gap-4">

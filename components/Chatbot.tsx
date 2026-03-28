@@ -39,7 +39,7 @@ const faqData: { keywords: string[]; answer: string }[] = [
   },
   {
     keywords: ['quote', 'contact', 'reach', 'how to', 'enquiry', '联系', '报价'],
-    answer: "Getting a quote is easy!\n\n• Call: +91 89338 14898\n• Emailriorlnaekmolar@gmall.oom• Fill the contact form on this page\n\nOur team will assess your requirements and provide a free quote within 24 hours."
+    answer: "Getting a quote is easy!\n\n• Call: +91 89338 14898\n• Email:orinteksolar@gmail.com\n Fill the contact form on this page\n\nOur team will assess your requirements and provide a free quote within 24 hours."
   },
   {
     keywords: ['location', 'address', 'where', 'area', 'lucknow', '地址', '位置'],
