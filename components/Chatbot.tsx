@@ -19,7 +19,7 @@ const faqData: { keywords: string[]; answer: string }[] = [
   },
   {
     keywords: ['cost', 'price', 'budget', 'expensive', 'cheap', '费用', '价格'],
-    answer: "The cost of solar installation depends on your energy requirements, roof size, and system capacity. We provide free quotes tailored to your specific needs. On average, residential systems start from ₹1.5 lakhs. Contact us for a detailed quote!"
+    answer: "The cost of solar installation depends on your energy requirements, roof size, and system capacity. We provide free quotes tailored to your specific needs. On average, residential systems start from ₹1.8 lakhs. Contact us for a detailed quote!"
   },
   {
     keywords: ['benefit', 'advantage', 'why solar', 'solar benefit', '省钱', '好处'],

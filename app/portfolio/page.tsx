@@ -2,7 +2,7 @@
 
 import { COLORS } from '@/lib/constants';
 import { Card, CardContent } from '@/components/ui/card';
-import Link from 'next/link';
+
 import { MapPin, Zap, Sun, ArrowRight, TrendingUp, Award, Users } from 'lucide-react';
 import { useQuote } from '@/lib/quote-context';
 
@@ -183,34 +183,12 @@ export default function PortfolioPage() {
         </div>
       </section>
 
-      {/* Filter Categories */}
-      <section className="py-8 bg-white shadow-md sticky top-0 z-10">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="flex flex-wrap justify-center gap-3">
-            {categories.map((cat) => (
-              <button
-                key={cat}
-                className={`px-6 py-2 rounded-full font-medium transition-all ${
-                  cat === 'All' 
-                    ? 'text-white shadow-lg' 
-                    : 'bg-gray-100 text-gray-700 hover:bg-orange-100'
-                }`}
-                style={cat === 'All' ? { backgroundColor: COLORS.primary } : {}}
-              >
-                {cat}
-              </button>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* Projects Grid */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {projects.map((project) => (
-              <Link key={project.id} href={`/portfolio/${project.id}`}>
-                <Card className="overflow-hidden hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 h-full flex flex-col group cursor-pointer" style={{ borderRadius: '20px' }}>
+              <Card key={project.id} className="overflow-hidden hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 h-full flex flex-col group cursor-pointer" style={{ borderRadius: '20px' }}>
                   {/* Image Section */}
                   <div className="relative h-56 overflow-hidden">
                     <img 
@@ -281,7 +259,6 @@ export default function PortfolioPage() {
                     </div>
                   </CardContent>
                 </Card>
-              </Link>
             ))}
           </div>
         </div>

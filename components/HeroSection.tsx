@@ -14,7 +14,7 @@ export default function HeroSection() {
         loop
         playsInline
         preload="none"
-        poster="/orintek-front.webp"
+        poster="/solar-panels-roof-solar-cell.jpg"
         className="absolute inset-0 object-cover"
         style={{
           width: '100%',

@@ -88,7 +88,7 @@ export default function Home() {
                 }}
               >
                 <Image
-                  src="/orintek-front.webp"
+                  src="/images/orintekfriont.jpg"
                   alt="Solar Rooftop Installation"
                   width={500}
                   height={400}
