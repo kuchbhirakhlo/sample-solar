@@ -68,7 +68,7 @@ export default function AboutPage() {
                 }}
               >
                 <img
-                  src="/orintek-front.webp"
+                  src="/images/orintekfriont.jpg"
                   alt="Solar Rooftop Installation"
                   className="w-full h-auto object-cover"
                   style={{ maxHeight: '400px' }}
@@ -107,7 +107,7 @@ export default function AboutPage() {
             </div>
             <div className="flex justify-center">
               <img
-                src="/orieteklogo.jpg"
+                src="/orinteklogo.png"
                 alt="ORINTEK Solar Energy Solutions"
                 className="h-48 w-auto object-contain"
               />
