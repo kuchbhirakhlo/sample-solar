@@ -7,8 +7,8 @@ export const SITE_CONFIG = {
   ogImage: '/og-image.jpg',
   links: {
     twitter: 'https://twitter.com',
-    instagram: 'https://instagram.com',
-    facebook: 'https://facebook.com',
+    instagram: 'https://www.instagram.com/orinteksolarlucknow/',
+    facebook: 'https://www.facebook.com/profile.php?id=61576375254615',
     linkedin: 'https://linkedin.com',
   },
   seo: SEO_PACKAGE,
