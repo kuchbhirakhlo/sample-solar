@@ -33,7 +33,8 @@ import {
   Unlock,
   UserPlus,
   UserX,
-  FileText
+  FileText,
+  Wrench
 } from 'lucide-react';
 import {
   getContactSubmissions,
@@ -48,10 +49,13 @@ import {
   updateEmployee,
   deleteEmployee,
   getJobApplications,
+  getServiceBookings,
+  updateServiceBookingStatus,
   ContactSubmission,
   Job,
   Employee,
-  JobApplication
+  JobApplication,
+  ServiceBooking
 } from '@/lib/firebase-db';
 
 export default function SolarAdminPage() {
@@ -64,6 +68,7 @@ export default function SolarAdminPage() {
     const [jobs, setJobs] = useState<Job[]>([]);
     const [employees, setEmployees] = useState<Employee[]>([]);
     const [jobApplications, setJobApplications] = useState<JobApplication[]>([]);
+    const [serviceBookings, setServiceBookings] = useState<ServiceBooking[]>([]);
     const [dataLoading, setDataLoading] = useState(false);
 
     // Load data when admin logs in
@@ -76,16 +81,18 @@ export default function SolarAdminPage() {
     const loadData = async () => {
         setDataLoading(true);
         try {
-            const [contactsData, jobsData, employeesData, applicationsData] = await Promise.all([
+            const [contactsData, jobsData, employeesData, applicationsData, serviceData] = await Promise.all([
                 getContactSubmissions(),
                 getJobs(),
                 getEmployees(),
-                getJobApplications()
+                getJobApplications(),
+                getServiceBookings()
             ]);
             setContacts(contactsData);
             setJobs(jobsData);
             setEmployees(employeesData);
             setJobApplications(applicationsData);
+            setServiceBookings(serviceData);
         } catch (error) {
             console.error('Error loading data:', error);
         } finally {
@@ -103,6 +110,8 @@ export default function SolarAdminPage() {
     // Dialog states
     const [contactDialogOpen, setContactDialogOpen] = useState(false);
     const [selectedContact, setSelectedContact] = useState<ContactSubmission | null>(null);
+    const [serviceDialogOpen, setServiceDialogOpen] = useState(false);
+    const [selectedServiceBooking, setSelectedServiceBooking] = useState<ServiceBooking | null>(null);
     const [jobDialogOpen, setJobDialogOpen] = useState(false);
     const [employeeDialogOpen, setEmployeeDialogOpen] = useState(false);
 
@@ -162,6 +171,21 @@ export default function SolarAdminPage() {
         } catch (error) {
             console.error('Error deleting contact:', error);
             alert('Failed to delete contact');
+        }
+    };
+
+    const handleViewServiceBooking = (booking: ServiceBooking) => {
+        setSelectedServiceBooking(booking);
+        setServiceDialogOpen(true);
+    };
+
+    const handleUpdateServiceStatus = async (id: string, status: ServiceBooking['status']) => {
+        try {
+            await updateServiceBookingStatus(id, status);
+            setServiceBookings(serviceBookings.map(b => b.id === id ? { ...b, status } : b));
+        } catch (error) {
+            console.error('Error updating service booking status:', error);
+            alert('Failed to update service booking status');
         }
     };
 
@@ -432,11 +456,16 @@ export default function SolarAdminPage() {
 
             <div className="max-w-7xl mx-auto px-4 py-8">
                 <Tabs defaultValue="contacts" className="space-y-6">
-                    <TabsList className="grid w-full grid-cols-5 lg:w-auto lg:inline-grid">
+                    <TabsList className="grid w-full grid-cols-6 lg:w-auto lg:inline-grid">
                         <TabsTrigger value="contacts" className="gap-2">
                             <MessageSquare className="w-4 h-4" />
                             <span className="hidden sm:inline">Contact Inquiries</span>
                             <Badge variant="secondary" className="ml-1">{contacts.filter(c => c.status === 'new').length}</Badge>
+                        </TabsTrigger>
+                        <TabsTrigger value="services" className="gap-2">
+                            <Wrench className="w-4 h-4" />
+                            <span className="hidden sm:inline">Services</span>
+                            <Badge variant="secondary" className="ml-1">{serviceBookings.filter(b => b.status === 'new').length}</Badge>
                         </TabsTrigger>
                         <TabsTrigger value="jobs" className="gap-2">
                             <Briefcase className="w-4 h-4" />
@@ -586,6 +615,146 @@ export default function SolarAdminPage() {
                                             </div>
                                         </div>
                                     ))}
+                                </div>
+                            </CardContent>
+                        </Card>
+                    </TabsContent>
+
+                    {/* Services Bookings Tab */}
+                    <TabsContent value="services">
+                        <Card>
+                            <CardHeader>
+                                <CardTitle className="flex items-center gap-2">
+                                    <Wrench className="w-5 h-5" />
+                                    Service Bookings
+                                </CardTitle>
+                                <CardDescription>
+                                    View and manage customer service bookings
+                                </CardDescription>
+                            </CardHeader>
+                            <CardContent>
+                                <div className="space-y-4">
+                                    {serviceBookings.length === 0 ? (
+                                        <p className="text-center text-gray-500 py-8">No service bookings yet</p>
+                                    ) : (
+                                        serviceBookings.map((booking) => (
+                                            <div
+                                                key={booking.id}
+                                                className="flex flex-col md:flex-row md:items-center justify-between p-4 border rounded-lg hover:bg-gray-50 gap-4"
+                                            >
+                                                <div className="flex-1">
+                                                    <div className="flex items-center gap-2 mb-1">
+                                                        <h4 className="font-semibold">{booking.name}</h4>
+                                                        <Badge variant={booking.status === 'new' ? 'default' : booking.status === 'confirmed' ? 'secondary' : 'outline'}>
+                                                            {booking.status}
+                                                        </Badge>
+                                                    </div>
+                                                    <p className="text-sm font-medium text-blue-600">{booking.serviceType}</p>
+                                                    <div className="flex flex-wrap gap-4 text-sm text-gray-600 mt-1">
+                                                        <span className="flex items-center gap-1">
+                                                            <Phone className="w-3 h-3" />
+                                                            {booking.phone}
+                                                        </span>
+                                                        <span className="flex items-center gap-1">
+                                                            <Calendar className="w-3 h-3" />
+                                                            {booking.preferredDate}
+                                                        </span>
+                                                        <span className="flex items-center gap-1">
+                                                            <MapPin className="w-3 h-3" />
+                                                            {booking.city}
+                                                        </span>
+                                                    </div>
+                                                    <p className="text-sm text-gray-500 mt-1 truncate">{booking.address}</p>
+                                                </div>
+                                                <div className="flex items-center gap-2">
+                                                    <Dialog open={serviceDialogOpen && selectedServiceBooking?.id === booking.id} onOpenChange={setServiceDialogOpen}>
+                                                        <DialogTrigger asChild>
+                                                            <Button variant="outline" size="sm" onClick={() => handleViewServiceBooking(booking)}>
+                                                                <Eye className="w-4 h-4 mr-1" />
+                                                                View
+                                                            </Button>
+                                                        </DialogTrigger>
+                                                        <DialogContent className="max-w-2xl">
+                                                            <DialogHeader>
+                                                                <DialogTitle>Service Booking Details</DialogTitle>
+                                                                <DialogDescription>
+                                                                    Booked on {selectedServiceBooking?.createdAt?.toLocaleDateString()}
+                                                                </DialogDescription>
+                                                            </DialogHeader>
+                                                            {selectedServiceBooking && (
+                                                                <div className="space-y-4">
+                                                                    <div className="grid grid-cols-2 gap-4">
+                                                                        <div>
+                                                                            <Label className="text-gray-500">Customer Name</Label>
+                                                                            <p className="font-semibold">{selectedServiceBooking.name}</p>
+                                                                        </div>
+                                                                        <div>
+                                                                            <Label className="text-gray-500">Phone</Label>
+                                                                            <p className="font-semibold">{selectedServiceBooking.phone}</p>
+                                                                        </div>
+                                                                        <div>
+                                                                            <Label className="text-gray-500">Email</Label>
+                                                                            <p className="font-semibold">{selectedServiceBooking.email || 'N/A'}</p>
+                                                                        </div>
+                                                                        <div>
+                                                                            <Label className="text-gray-500">City</Label>
+                                                                            <p className="font-semibold">{selectedServiceBooking.city}</p>
+                                                                        </div>
+                                                                        <div>
+                                                                            <Label className="text-gray-500">Service Type</Label>
+                                                                            <p className="font-semibold text-blue-600">{selectedServiceBooking.serviceType}</p>
+                                                                        </div>
+                                                                        <div>
+                                                                            <Label className="text-gray-500">Preferred Date</Label>
+                                                                            <p className="font-semibold">{selectedServiceBooking.preferredDate}</p>
+                                                                        </div>
+                                                                        <div>
+                                                                            <Label className="text-gray-500">Preferred Time</Label>
+                                                                            <p className="font-semibold">{selectedServiceBooking.preferredTime}</p>
+                                                                        </div>
+                                                                        <div>
+                                                                            <Label className="text-gray-500">Current Status</Label>
+                                                                            <Badge variant={selectedServiceBooking.status === 'new' ? 'default' : 'secondary'}>
+                                                                                {selectedServiceBooking.status}
+                                                                            </Badge>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div>
+                                                                        <Label className="text-gray-500">Address</Label>
+                                                                        <p className="text-sm">{selectedServiceBooking.address}</p>
+                                                                    </div>
+                                                                    {selectedServiceBooking.description && (
+                                                                        <div>
+                                                                            <Label className="text-gray-500">Additional Details</Label>
+                                                                            <p className="text-sm">{selectedServiceBooking.description}</p>
+                                                                        </div>
+                                                                    )}
+                                                                    <div className="flex gap-2 pt-4">
+                                                                        <Button
+                                                                            onClick={() => handleUpdateServiceStatus(booking.id!, 'confirmed')}
+                                                                            disabled={booking.status !== 'new'}
+                                                                            className="bg-green-600 hover:bg-green-700"
+                                                                        >
+                                                                            <CheckCircle className="w-4 h-4 mr-1" />
+                                                                            Confirm
+                                                                        </Button>
+                                                                        <Button
+                                                                            onClick={() => handleUpdateServiceStatus(booking.id!, 'completed')}
+                                                                            disabled={booking.status === 'completed'}
+                                                                            className="bg-blue-600 hover:bg-blue-700"
+                                                                        >
+                                                                            <CheckCircle className="w-4 h-4 mr-1" />
+                                                                            Mark Complete
+                                                                        </Button>
+                                                                    </div>
+                                                                </div>
+                                                            )}
+                                                        </DialogContent>
+                                                    </Dialog>
+                                                </div>
+                                            </div>
+                                        ))
+                                    )}
                                 </div>
                             </CardContent>
                         </Card>

@@ -262,3 +262,52 @@ export const getJobApplications = async (): Promise<JobApplication[]> => {
     appliedAt: doc.data().appliedAt?.toDate() || new Date(),
   })) as JobApplication[];
 };
+
+// Service Bookings
+export interface ServiceBooking {
+  id?: string;
+  name: string;
+  email: string;
+  phone: string;
+  address: string;
+  city: string;
+  serviceType: string;
+  preferredDate: string;
+  preferredTime: string;
+  description: string;
+  status: 'new' | 'confirmed' | 'completed' | 'cancelled';
+  createdAt: Date;
+}
+
+export const addServiceBooking = async (booking: Omit<ServiceBooking, 'id' | 'createdAt' | 'status'>) => {
+  const db = await getDbService();
+  if (!db) throw new Error('Database not available');
+
+  const docRef = await addDoc(collection(db, 'serviceBookings'), {
+    ...booking,
+    status: 'new',
+    createdAt: Timestamp.now(),
+  });
+  return docRef.id;
+};
+
+export const getServiceBookings = async (): Promise<ServiceBooking[]> => {
+  const db = await getDbService();
+  if (!db) return [];
+
+  const q = query(collection(db, 'serviceBookings'), orderBy('createdAt', 'desc'));
+  const querySnapshot = await getDocs(q);
+
+  return querySnapshot.docs.map(doc => ({
+    id: doc.id,
+    ...doc.data(),
+    createdAt: doc.data().createdAt?.toDate() || new Date(),
+  })) as ServiceBooking[];
+};
+
+export const updateServiceBookingStatus = async (id: string, status: ServiceBooking['status']) => {
+  const db = await getDbService();
+  if (!db) throw new Error('Database not available');
+
+  await updateDoc(doc(db, 'serviceBookings', id), { status });
+};

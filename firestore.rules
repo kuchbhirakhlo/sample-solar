@@ -21,6 +21,11 @@ service cloud.firestore {
       allow create;
     }
 
+    // Allow anyone to submit service bookings
+    match /serviceBookings/{document=**} {
+      allow create;
+    }
+
     // Allow public read access to jobs
     match /jobs/{document=**} {
       allow read;
